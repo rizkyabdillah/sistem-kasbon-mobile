@@ -13,15 +13,16 @@
         <activity android:name=".view.activity.TransaksiPenjualActivity" />
         <activity android:name=".view.activity.KeranjangPenjualActivity" />
         <activity android:name=".view.activity.ResultActivity">
+        </activity>
+        <activity android:name=".view.activity.ProfilPembeliActivity" />
+        <activity android:name=".view.activity.LoginActivity" />
+        <activity android:name=".view.activity.PendaftaranActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.ProfilPembeliActivity" />
-        <activity android:name=".view.activity.LoginActivity" />
-        <activity android:name=".view.activity.PendaftaranActivity" />
         <activity android:name=".view.activity.MainActivity" />
     </application>
 

@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/editTextDaftarNama"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="40dp"
@@ -81,10 +81,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextDaftarNama" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/editTextDaftarPassword"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="40dp"
@@ -101,7 +101,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextDaftarNama" />
 
             <View
                 android:id="@+id/view3"
@@ -114,10 +114,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextDaftarPassword" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/cardViewDaftar"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="40dp"
@@ -160,7 +160,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                app:layout_constraintTop_toBottomOf="@+id/cardViewDaftar">
 
                 <TextView
                     android:id="@+id/textView5"
@@ -175,7 +175,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textViewMasuk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

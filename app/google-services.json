@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "929782198543",
+    "project_id": "sistem-kasbon-d8d70",
+    "storage_bucket": "sistem-kasbon-d8d70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929782198543:android:62732bc61306d9c6e60e7a",
+        "android_client_info": {
+          "package_name": "com.android.kasbon.sistem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929782198543-9eg3cjq3f4apdil3riji6j44floo213p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwNI3WHGfHI87jG5x3a01B4RcTBvWhDPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929782198543-9eg3cjq3f4apdil3riji6j44floo213p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
