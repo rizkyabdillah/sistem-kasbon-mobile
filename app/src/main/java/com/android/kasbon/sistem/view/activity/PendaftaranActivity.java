@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -36,8 +37,10 @@ public class PendaftaranActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkInput()) {
-                    alertProgress = new AlertProgress(v, "Sedang mengirim data");
+
+                    alertProgress = new AlertProgress(v, "Sedang mengautentikasi data");
                     alertProgress.showDialog();
+
                     auth.createUserWithEmailAndPassword(
                         binding.editTextDaftarEmail.getText().toString(), binding.editTextDaftarPassword.getText().toString()
                     ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -46,8 +49,8 @@ public class PendaftaranActivity extends AppCompatActivity {
                             if(task.isComplete()) {
                                 alertProgress.dismissDialog();
                                 if(task.isSuccessful()) {
-                                    alertInfo = new AlertInfo(PendaftaranActivity.this,"Data berhasil terdaftar");
-                                    Preference.setUserData(auth.getCurrentUser());
+                                    Intent intent = new Intent(PendaftaranActivity.this, MainActivity.class);
+                                    alertInfo = new AlertInfo(PendaftaranActivity.this,"Data berhasil terdaftar", intent);
                                 } else {
                                     alertInfo = new AlertInfo(PendaftaranActivity.this,task.getException().getMessage());
                                 }
@@ -56,6 +59,14 @@ public class PendaftaranActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        binding.textViewMasuk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), LoginActivity.class));
+                finish();
             }
         });
 

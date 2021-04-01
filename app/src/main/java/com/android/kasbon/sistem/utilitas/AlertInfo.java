@@ -3,6 +3,7 @@ package com.android.kasbon.sistem.utilitas;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -36,6 +37,19 @@ public class AlertInfo {
             @Override
             public void onClick(View v) {
                 alert.dismiss();
+            }
+        });
+    }
+
+    public AlertInfo(Activity a, String textCustom, Intent intent) {
+        this(a);
+        binding.textCustom.setText(textCustom);
+        binding.btnDialogInformasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                a.finish();
+                a.startActivity(intent);
             }
         });
     }
