@@ -22,9 +22,14 @@ public class AuthRepository {
         }); return liveData;
     }
 
-//    public MutableLiveData<User> firebaseCreateNewUser(User authUser) {
-//        MutableLiveData<User> liveData = new MutableLiveData<>();
-//
-//    }
+    public MutableLiveData<Task<AuthResult>> firebaseCreateNewUser(String email, String password) {
+        MutableLiveData<Task<AuthResult>> liveData = new MutableLiveData<>();
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                liveData.postValue(task);
+            }
+        }); return liveData;
+    }
 
 }

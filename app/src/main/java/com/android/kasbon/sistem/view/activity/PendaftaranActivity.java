@@ -3,6 +3,8 @@ package com.android.kasbon.sistem.view.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import com.android.kasbon.sistem.databinding.ActivityPendaftaranBinding;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.utilitas.Preference;
+import com.android.kasbon.sistem.viewmodel.AuthViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,8 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class PendaftaranActivity extends AppCompatActivity {
 
+    private AuthViewModel viewModel;
     private ActivityPendaftaranBinding binding;
-    private FirebaseAuth auth;
     private AlertProgress alertProgress;
     private AlertInfo alertInfo;
 
@@ -31,21 +34,21 @@ public class PendaftaranActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pendaftaran);
 
-        this.auth = FirebaseAuth.getInstance();
+        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         binding.constraintLayoutDaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkInput()) {
 
-                    alertProgress = new AlertProgress(v, "Sedang mengautentikasi data");
+                    alertProgress = new AlertProgress(v, "Sedang menambahkan data");
                     alertProgress.showDialog();
 
-                    auth.createUserWithEmailAndPassword(
+                    viewModel.firebaseCreateNewUser(
                         binding.editTextDaftarEmail.getText().toString(), binding.editTextDaftarPassword.getText().toString()
-                    ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    ).observe(PendaftaranActivity.this, new Observer<Task<AuthResult>>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                        public void onChanged(Task<AuthResult> task) {
                             if(task.isComplete()) {
                                 alertProgress.dismissDialog();
                                 if(task.isSuccessful()) {

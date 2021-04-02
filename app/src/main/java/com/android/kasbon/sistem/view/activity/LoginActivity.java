@@ -29,9 +29,17 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-//
+
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-//
+
+        binding.textViewDaftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), PendaftaranActivity.class));
+                finish();
+            }
+        });
+
         binding.constraintLayoutLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,14 +53,16 @@ public class LoginActivity extends AppCompatActivity{
                     ).observe(LoginActivity.this, new Observer<Task<AuthResult>>() {
                         @Override
                         public void onChanged(Task<AuthResult> task) {
-                            alertProgress.dismissDialog();
-                            if(task.isSuccessful()) {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                alertInfo = new AlertInfo(LoginActivity.this,"Berhasil masuk", intent);
-                            } else {
-                                alertInfo = new AlertInfo(LoginActivity.this, task.getException().getMessage());
+                            if (task.isComplete()) {
+                                alertProgress.dismissDialog();
+                                if (task.isSuccessful()) {
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    alertInfo = new AlertInfo(LoginActivity.this, "Berhasil masuk", intent);
+                                } else {
+                                    alertInfo = new AlertInfo(LoginActivity.this, task.getException().getMessage());
+                                }
+                                alertInfo.showDialog();
                             }
-                            alertInfo.showDialog();
                         }
                     });
                 }

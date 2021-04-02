@@ -1,30 +1,20 @@
 package com.android.kasbon.sistem.model;
 
-import com.google.firebase.firestore.Exclude;
 
-import java.io.Serializable;
+public class User {
 
-public class User implements Serializable {
-
-    private String uId, name, email;
-    private boolean isAuthenticated, isNew, isCreated;
+    private String uId, name, email, password, telepon, alamat;
 
     public User() {
     }
 
-    public User(String uId, String name, String email, boolean isAuthenticated, boolean isNew, boolean isCreated) {
+    public User(String uId, String name, String email, String password, String telepon, String alamat) {
         this.uId = uId;
         this.name = name;
         this.email = email;
-        this.isAuthenticated = isAuthenticated;
-        this.isNew = isNew;
-        this.isCreated = isCreated;
-    }
-
-    public User(String uId, String name, String email) {
-        this.uId = uId;
-        this.name = name;
-        this.email = email;
+        this.password = password;
+        this.telepon = telepon;
+        this.alamat = alamat;
     }
 
     public String getuId() {
@@ -51,27 +41,27 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean isAuthenticated() {
-        return isAuthenticated;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAuthenticated(boolean authenticated) {
-        isAuthenticated = authenticated;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public boolean isNew() {
-        return isNew;
+    public String getTelepon() {
+        return telepon;
     }
 
-    public void setNew(boolean aNew) {
-        isNew = aNew;
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
     }
 
-    public boolean isCreated() {
-        return isCreated;
+    public String getAlamat() {
+        return alamat;
     }
 
-    public void setCreated(boolean created) {
-        isCreated = created;
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
     }
 }
