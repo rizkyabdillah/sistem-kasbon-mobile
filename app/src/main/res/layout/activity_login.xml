@@ -81,20 +81,20 @@
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="40dp"
                     android:background="@color/app_text_color_grey"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextLoginNama" />
+                    app:layout_constraintTop_toBottomOf="@+id/editTextLoginEmail" />
 
                 <EditText
                     android:id="@+id/editTextLoginPassword"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="42dp"
                     android:layout_marginEnd="40dp"
                     android:background="@color/app_background_secondary"
                     android:fontFamily="@font/roboto_light"
@@ -107,14 +107,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextLoginNama" />
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
 
                 <View
                     android:id="@+id/view3"
                     android:layout_width="0dp"
                     android:layout_height="0.5dp"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="40dp"
                     android:background="@color/app_text_color_grey"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -123,11 +123,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewDaftar"
+                    android:id="@+id/cardViewMasuk"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginEnd="40dp"
                     android:backgroundTint="@color/app_teal"
                     android:clickable="true"
@@ -159,15 +159,16 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="52dp"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewDaftar">
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewMasuk">
 
                     <TextView
                         android:id="@+id/textView5"
