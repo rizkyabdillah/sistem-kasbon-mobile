@@ -20,7 +20,7 @@ public class InsertViewModel extends AndroidViewModel {
         this.repository = new InsertRepository();
     }
 
-    public MutableLiveData<String> insertDataUser(Map user, String idUser) {
+    public MutableLiveData<String> insertDataUser(Map<String, Object> user, String idUser) {
         return repository.insertDataUser(user, idUser);
     }
 

@@ -3,34 +3,25 @@ package com.android.kasbon.sistem.model;
 
 public class User {
 
-    private String uId, name, email, password, telepon, alamat;
+    private String nama, telepon, alamat, email, password;
+    private int saldo;
 
     public User() {
     }
 
-    public User(String uId, String name, String email, String password, String telepon, String alamat) {
-        this.uId = uId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public User(String nama, String telepon, String alamat, int saldo) {
+        this.nama = nama;
         this.telepon = telepon;
         this.alamat = alamat;
+        this.saldo = saldo;
     }
 
-    public String getuId() {
-        return uId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setuId(String uId) {
-        this.uId = uId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -41,12 +32,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getNama() {
+        return nama;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public String getTelepon() {
@@ -63,5 +54,13 @@ public class User {
 
     public void setAlamat(String alamat) {
         this.alamat = alamat;
+    }
+
+    public int getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
     }
 }

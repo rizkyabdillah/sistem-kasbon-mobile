@@ -36,7 +36,6 @@ public class PendaftaranActivity extends AppCompatActivity {
     private ActivityPendaftaranBinding binding;
     private AlertProgress alertProgress;
     private AlertInfo alertInfo;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,6 @@ public class PendaftaranActivity extends AppCompatActivity {
 
         authViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
         insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
-        db = FirebaseFirestore.getInstance();
 
         binding.constraintLayoutDaftar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +65,7 @@ public class PendaftaranActivity extends AppCompatActivity {
                                 user.put("telepon", null);
                                 user.put("alamat", null);
                                 user.put("saldo", 0);
+                                user.put("password", binding.editTextDaftarPassword.getText().toString());
 
                                 String idUser = task.getResult().getUser().getUid();
                                 insertViewModel.insertDataUser(user, idUser).observe(PendaftaranActivity.this, new Observer<String>() {
