@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,9 +17,10 @@ public class AuthRepository {
         final MutableLiveData<Task<AuthResult>> liveData = new MutableLiveData<>();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                liveData.postValue(task);
-            }
+            public void onComplete(@NonNull Task<AuthResult> task) { liveData.postValue(task); }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) { liveData.postValue(null); }
         }); return liveData;
     }
 
@@ -26,9 +28,10 @@ public class AuthRepository {
         MutableLiveData<Task<AuthResult>> liveData = new MutableLiveData<>();
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                liveData.postValue(task);
-            }
+            public void onComplete(@NonNull Task<AuthResult> task) { liveData.postValue(task); }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) { liveData.postValue(null); }
         }); return liveData;
     }
 
