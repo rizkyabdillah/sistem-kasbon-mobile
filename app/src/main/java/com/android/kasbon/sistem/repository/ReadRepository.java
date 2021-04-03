@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ReadRepository {
 
@@ -28,6 +29,29 @@ public class ReadRepository {
             }
         }); return liveData;
     }
+
+    public MutableLiveData<QuerySnapshot> readDataTransaksiUser(String idUser) {
+        MutableLiveData<QuerySnapshot> liveData = new MutableLiveData<>();
+        db.collection("transaksi").whereEqualTo("id_user", idUser).get()
+        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                liveData.postValue(queryDocumentSnapshots);
+            }
+        }); return liveData;
+    }
+
+    public MutableLiveData<QuerySnapshot> readDataTransaksiAll() {
+        MutableLiveData<QuerySnapshot> liveData = new MutableLiveData<>();
+        db.collection("transaksi").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                liveData.postValue(queryDocumentSnapshots);
+            }
+        }); return liveData;
+    }
+
+
 
 
 }

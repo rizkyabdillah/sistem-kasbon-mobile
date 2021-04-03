@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.User;
 import com.android.kasbon.sistem.repository.ReadRepository;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ReadViewModel extends AndroidViewModel {
 
@@ -22,7 +23,13 @@ public class ReadViewModel extends AndroidViewModel {
         return repository.readDataUser(uIdUser);
     }
 
+    public MutableLiveData<QuerySnapshot> readDataTransaksiUser(String idUser) {
+        return repository.readDataTransaksiUser(idUser);
+    }
 
+    public MutableLiveData<QuerySnapshot> readDataTransaksiAll() {
+        return repository.readDataTransaksiAll();
+    }
 
 
 
