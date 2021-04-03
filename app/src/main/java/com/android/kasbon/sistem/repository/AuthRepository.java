@@ -18,9 +18,6 @@ public class AuthRepository {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) { liveData.postValue(task); }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) { liveData.postValue(null); }
         }); return liveData;
     }
 
@@ -29,9 +26,6 @@ public class AuthRepository {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) { liveData.postValue(task); }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) { liveData.postValue(null); }
         }); return liveData;
     }
 

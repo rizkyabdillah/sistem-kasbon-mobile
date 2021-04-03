@@ -17,46 +17,74 @@ import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.utilitas.Preference;
 import com.android.kasbon.sistem.viewmodel.AuthViewModel;
+import com.android.kasbon.sistem.viewmodel.InsertViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PendaftaranActivity extends AppCompatActivity {
 
-    private AuthViewModel viewModel;
+    private AuthViewModel authViewModel;
+    private InsertViewModel insertViewModel;
     private ActivityPendaftaranBinding binding;
     private AlertProgress alertProgress;
     private AlertInfo alertInfo;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pendaftaran);
 
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        authViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
+        db = FirebaseFirestore.getInstance();
 
         binding.constraintLayoutDaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkInput()) {
 
-                    alertProgress = new AlertProgress(v, "Sedang menambahkan data");
+                    alertProgress = new AlertProgress(v, "Sedang mendaftarkan data");
                     alertProgress.showDialog();
 
-                    viewModel.firebaseCreateNewUser(
+                    authViewModel.firebaseCreateNewUser(
                         binding.editTextDaftarEmail.getText().toString(), binding.editTextDaftarPassword.getText().toString()
                     ).observe(PendaftaranActivity.this, new Observer<Task<AuthResult>>() {
                         @Override
                         public void onChanged(Task<AuthResult> task) {
-                            if(task.isComplete()) {
+                            if(task.isSuccessful()) {
+
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("nama", binding.editTextDaftarNama.getText().toString());
+                                user.put("telepon", null);
+                                user.put("alamat", null);
+                                user.put("saldo", 0);
+
+                                String idUser = task.getResult().getUser().getUid();
+                                insertViewModel.insertDataUser(user, idUser).observe(PendaftaranActivity.this, new Observer<String>() {
+                                    @Override
+                                    public void onChanged(String s) {
+                                        alertProgress.dismissDialog();
+                                        if(s.equals("SUKSES")) {
+                                            Intent intent = new Intent(PendaftaranActivity.this, MainActivity.class);
+                                            alertInfo = new AlertInfo(PendaftaranActivity.this,"Data berhasil terdaftar", intent);
+                                        } else  {
+                                            alertInfo = new AlertInfo(PendaftaranActivity.this, s);
+                                        }
+                                        alertInfo.showDialog();
+                                    }
+                                });
+                            } else {
                                 alertProgress.dismissDialog();
-                                if(task.isSuccessful()) {
-                                    Intent intent = new Intent(PendaftaranActivity.this, MainActivity.class);
-                                    alertInfo = new AlertInfo(PendaftaranActivity.this,"Data berhasil terdaftar", intent);
-                                } else {
-                                    alertInfo = new AlertInfo(PendaftaranActivity.this,task.getException().getMessage());
-                                }
+                                alertInfo = new AlertInfo(PendaftaranActivity.this, task.getException().getMessage());
                                 alertInfo.showDialog();
                             }
                         }
