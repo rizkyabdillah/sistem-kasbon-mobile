@@ -67,6 +67,11 @@ public class TransaksiModel {
         return saldo_sebelum;
     }
 
+    @SuppressLint("DefaultLocale")
+    public String getSaldo_sebelum_string() {
+        return String.format("%3s%,.0f","Rp ", (double) getSaldo_sebelum());
+    }
+
     public void setSaldo_sebelum(int saldo_sebelum) {
         this.saldo_sebelum = saldo_sebelum;
     }
@@ -89,10 +94,6 @@ public class TransaksiModel {
 
     public String getTotalCurrency()  {
         return formatCurrency(getTotal(), getAksi());
-    }
-
-    public int getColorTotal() {
-        return getAksi().equals("Bayar") ? R.color.app_green : R.color.app_red;
     }
 
     @SuppressLint("DefaultLocale")

@@ -19,30 +19,30 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 
-public class TransaksiPenjualAdapter extends RecyclerView.Adapter<TransaksiPenjualAdapter.ViewHolder> {
+public class TransaksiPembeliAdapter extends RecyclerView.Adapter<TransaksiPembeliAdapter.ViewHolder> {
 
-    private ItemTransaksiPenjualBinding bindingPenjual;
+    private ItemTransaksiPembeliBinding bindingPembeli;
     private List<DocumentSnapshot> list;
 
-    public TransaksiPenjualAdapter(QuerySnapshot documentSnapshots) {
+    public TransaksiPembeliAdapter(QuerySnapshot documentSnapshots) {
         this.list = documentSnapshots.getDocuments();
     }
 
     @NonNull
     @Override
-    public TransaksiPenjualAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        bindingPenjual = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_transaksi_penjual,parent,false);
-        return new ViewHolder(bindingPenjual);
+    public TransaksiPembeliAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        bindingPembeli = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_transaksi_pembeli,parent,false);
+        return new ViewHolder(bindingPembeli);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull TransaksiPenjualAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TransaksiPembeliAdapter.ViewHolder holder, int position) {
         TransaksiModel model = list.get(position).toObject(TransaksiModel.class);
-        int green = ContextCompat.getColor(bindingPenjual.getRoot().getContext(), R.color.app_green);
-        int red = ContextCompat.getColor(bindingPenjual.getRoot().getContext(), R.color.app_red);
-        bindingPenjual.setTransaksi(model);
-        bindingPenjual.textNominal.setTextColor(model.getAksi().equals("Bayar") ? green : red);
+        int green = ContextCompat.getColor(bindingPembeli.getRoot().getContext(), R.color.app_green);
+        int red = ContextCompat.getColor(bindingPembeli.getRoot().getContext(), R.color.app_red);
+        bindingPembeli.setTransaksi(model);
+        bindingPembeli.textNominal.setTextColor(model.getAksi().equals("Bayar") ? green : red);
 
 
 
@@ -54,7 +54,7 @@ public class TransaksiPenjualAdapter extends RecyclerView.Adapter<TransaksiPenju
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(ItemTransaksiPenjualBinding binding) {
+        public ViewHolder(ItemTransaksiPembeliBinding binding) {
             super(binding.getRoot());
         }
     }

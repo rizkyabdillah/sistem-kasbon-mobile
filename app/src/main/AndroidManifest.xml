@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemKasbon">
         <activity android:name=".view.activity.KasbonPenjualActivity"/>
-        <activity android:name=".view.activity.TransaksiPenjualActivity" />
+        <activity android:name=".view.activity.TransaksiAllActivity" />
         <activity android:name=".view.activity.KeranjangPenjualActivity" />
         <activity android:name=".view.activity.ResultActivity"/>
         <activity android:name=".view.activity.ProfilPembeliActivity" />

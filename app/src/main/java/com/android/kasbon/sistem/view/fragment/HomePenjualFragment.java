@@ -1,5 +1,6 @@
 package com.android.kasbon.sistem.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,16 +9,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.android.kasbon.sistem.adapter.TransaksiPenjualAdapter;
 import com.android.kasbon.sistem.databinding.FragmentHomePenjualBinding;
+import com.android.kasbon.sistem.view.activity.TransaksiAllActivity;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -46,10 +46,26 @@ public class HomePenjualFragment extends Fragment {
         readViewModel.readDataTransaksiAll().observe(OWNER, new Observer<QuerySnapshot>() {
             @Override
             public void onChanged(QuerySnapshot queryDocumentSnapshots) {
+                
                 adapter = new TransaksiPenjualAdapter(queryDocumentSnapshots);
                 binding.recyclerViewTransaksiPenjual.setAdapter(adapter);
             }
         });
 
+        binding.btnLihatSemua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TransaksiAllActivity.class);
+                intent.putExtra("IS_READ_SELLER", true);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
