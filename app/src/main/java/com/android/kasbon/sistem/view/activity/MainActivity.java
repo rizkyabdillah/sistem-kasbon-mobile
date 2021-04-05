@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity{
             finish();
         }
 
-        loadFragment(new HomePembeliFragment());
+        loadFragment(new HomePenjualFragment());
 
 //        final DocumentReference sfDocRef = db.collection("cities").document("SF");
 //        db.runTransaction(new Transaction.Function<Double>() {

@@ -19,16 +19,10 @@ public class ReadRepository {
 
     public MutableLiveData<User> readDataUser(String uIdUser) {
         MutableLiveData<User> liveData = new MutableLiveData<>();
-        db.collection("users").document(uIdUser).get()
-        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        db.collection("users").document(uIdUser).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                liveData.postValue(documentSnapshot.toObject(User.class));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                liveData.postValue(null);
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                liveData.postValue(value.toObject(User.class));
             }
         }); return liveData;
     }

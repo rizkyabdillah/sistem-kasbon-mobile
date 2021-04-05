@@ -1,6 +1,10 @@
 package com.android.kasbon.sistem.model;
 
 
+import android.annotation.SuppressLint;
+
+import java.text.DecimalFormat;
+
 public class User {
 
     private String nama, telepon, alamat, email, password;
@@ -36,6 +40,11 @@ public class User {
         return nama;
     }
 
+    public String getFirstNama() {
+        String[] nama = getNama().split(" ");
+        return "Hai " + nama[0];
+    }
+
     public void setNama(String nama) {
         this.nama = nama;
     }
@@ -58,6 +67,11 @@ public class User {
 
     public int getSaldo() {
         return saldo;
+    }
+
+    @SuppressLint("DefaultLocale")
+    public String getSaldoFormatted() {
+        return "Rp. " +  String.format("%,.0f",  (double) getSaldo());
     }
 
     public void setSaldo(int saldo) {

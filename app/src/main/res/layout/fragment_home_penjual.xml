@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="item"
+            type="com.android.kasbon.sistem.model.ItemKeranjangModel" />
     </data>
 
     <FrameLayout
@@ -82,7 +84,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardViewDaftar" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName9"
+                android:id="@+id/editTextNamaBarang"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="32dp"
@@ -91,6 +93,7 @@
                 android:background="@color/app_background"
                 android:fontFamily="@font/roboto_light"
                 android:hint="Nama Barang"
+                android:text="@={item.namaBarang}"
                 android:inputType="textPersonName"
                 android:textColor="@color/app_text_color_primary"
                 android:textColorHint="@color/app_text_color_primary"
@@ -112,10 +115,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName9" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextNamaBarang" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName10"
+                android:id="@+id/editTextHarga"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="32dp"
@@ -124,6 +127,7 @@
                 android:background="@color/app_background"
                 android:fontFamily="@font/roboto_light"
                 android:hint="Harga"
+                android:text="@={item.harga}"
                 android:inputType="number"
                 android:textColor="@color/app_text_color_primary"
                 android:textColorHint="@color/app_text_color_primary"
@@ -145,10 +149,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName10" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextHarga" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName11"
+                android:id="@+id/editTextJumlah"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="32dp"
@@ -157,6 +161,7 @@
                 android:background="@color/app_background"
                 android:fontFamily="@font/roboto_light"
                 android:hint="Jumlah"
+                android:text="@={item.jumlah}"
                 android:inputType="number"
                 android:textColor="@color/app_text_color_primary"
                 android:textColorHint="@color/app_text_color_primary"
@@ -178,7 +183,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName11" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextJumlah" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewDaftar"
@@ -193,6 +198,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/view11">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayoutAddCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true">
@@ -220,7 +226,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtKeluar3" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton2"
+                android:id="@+id/fabMasukKeranjang"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginBottom="32dp"

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.kasbon.sistem.adapter.TransaksiPembeliAdapter;
 import com.android.kasbon.sistem.adapter.TransaksiPenjualAdapter;
 import com.android.kasbon.sistem.databinding.FragmentHomePembeliBinding;
+import com.android.kasbon.sistem.model.User;
 import com.android.kasbon.sistem.view.activity.LoginActivity;
 import com.android.kasbon.sistem.view.activity.ProfilPembeliActivity;
 import com.android.kasbon.sistem.view.activity.TransaksiAllActivity;
@@ -75,6 +76,13 @@ public class HomePembeliFragment extends Fragment {
 
                 adapter = new TransaksiPembeliAdapter(queryDocumentSnapshots);
                 binding.recyclerViewTransaksiPembeli.setAdapter(adapter);
+            }
+        });
+
+        readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                binding.setUser(user);
             }
         });
 
