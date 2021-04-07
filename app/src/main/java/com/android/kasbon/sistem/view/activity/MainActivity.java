@@ -47,66 +47,11 @@ public class MainActivity extends AppCompatActivity{
             finish();
         }
 
-        loadFragment(new HomePenjualFragment());
-
-//        final DocumentReference sfDocRef = db.collection("cities").document("SF");
-//        db.runTransaction(new Transaction.Function<Double>() {
-//            @Override
-//            public Double apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-//                DocumentSnapshot snapshot = transaction.get(sfDocRef);
-//                double newPopulation = snapshot.getDouble("population") + 1;
-//                if (newPopulation <= 1000000) {
-//                    transaction.update(sfDocRef, "population", newPopulation);
-//                    return newPopulation;
-//                } else {
-//                    throw new FirebaseFirestoreException("Population too high",
-//                            FirebaseFirestoreException.Code.ABORTED);
-//                }
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<Double>() {
-//            @Override
-//            public void onSuccess(Double aDouble) {
-//                Log.d("=============", "Transaction success: " + aDouble);
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//            }
-//        });
-
-//        final DocumentReference docRef = db.collection("cities").document("SF");
-//        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot snapshot,
-//                                @Nullable FirebaseFirestoreException e) {
-//                if (e != null) {
-//                    Log.w("=========", "Listen failed.", e);
-//                    return;
-//                }
-//
-//                String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
-//                        ? "Local" : "Server";
-//
-//                if (snapshot != null && snapshot.exists()) {
-//                    Log.d("=========", source + " data: " + snapshot.getData());
-//                } else {
-//                    Log.d("=========", source + " data: null");
-//                }
-//            }
-//        });
-
-
-
-
-
-
-
-
-
-
-
-
+        if(FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@email.com")) {
+            loadFragment(new HomePenjualFragment());
+        } else {
+            loadFragment(new HomePembeliFragment());
+        }
 
 
     }

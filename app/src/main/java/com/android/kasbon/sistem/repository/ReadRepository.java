@@ -48,6 +48,33 @@ public class ReadRepository {
         }); return liveData;
     }
 
+//    public MutableLiveData<DocumentSnapshot> readAll(String path) {
+//        MutableLiveData<DocumentSnapshot> liveData = new MutableLiveData<>();
+//        db.collection("transaksi").document(path).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                liveData.postValue(documentSnapshot);
+//            }
+//        });
+//        return liveData;
+//    }
+//
+//    public MutableLiveData<Boolean> updateData(String path, DocumentSnapshot value) {
+//        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+//        db.collection("transaksi").document(path).set(value.getData()).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                liveData.postValue(true);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                liveData.postValue(false);
+//            }
+//        });
+//        return liveData;
+//    }
+
 
 
 

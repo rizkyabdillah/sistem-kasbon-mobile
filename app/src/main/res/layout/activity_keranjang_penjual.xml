@@ -5,6 +5,10 @@
 
     <data>
         <variable
+            name="cart"
+            type="com.android.kasbon.sistem.model.ItemKeranjangModel" />
+
+        <variable
             name="operation"
             type="com.android.kasbon.sistem.model.OperationKeranjangModel" />
     </data>
@@ -14,6 +18,151 @@
         android:layout_height="match_parent"
         android:background="@color/app_background"
         tools:context=".view.activity.KeranjangPenjualActivity">
+
+        <EditText
+            android:id="@+id/editTextNamaBarang"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/app_background"
+            android:fontFamily="@font/roboto_light"
+            android:hint="Nama Barang"
+            android:inputType="textPersonName"
+            android:text="@={cart.namaBarang}"
+            android:textColor="@color/app_text_color_primary"
+            android:textColorHint="@color/app_text_color_primary"
+            android:textDirection="inherit"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+        <View
+            android:id="@+id/view19"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/app_text_color_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNamaBarang" />
+
+        <EditText
+            android:id="@+id/editTextHarga"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/app_background"
+            android:fontFamily="@font/roboto_light"
+            android:hint="Harga"
+            android:inputType="number"
+            android:text="@={cart.harga}"
+            android:textColor="@color/app_text_color_primary"
+            android:textColorHint="@color/app_text_color_primary"
+            android:textDirection="inherit"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view19" />
+
+        <View
+            android:id="@+id/view10"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/app_text_color_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextHarga" />
+
+        <EditText
+            android:id="@+id/editTextJumlah"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/app_background"
+            android:fontFamily="@font/roboto_light"
+            android:hint="Jumlah"
+            android:inputType="number"
+            android:text="@={cart.jumlah}"
+            android:textColor="@color/app_text_color_primary"
+            android:textColorHint="@color/app_text_color_primary"
+            android:textDirection="inherit"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+        <View
+            android:id="@+id/view11"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:background="@color/app_text_color_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextJumlah" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCart"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/app_red_dark"
+            android:clickable="true"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view11">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutAddCart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_trolli"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:id="@+id/view20"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/app_text_color_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewCart" />
 
         <TextView
             android:id="@+id/textJumlah"
@@ -25,7 +174,7 @@
             android:text="@{operation.jumlahBarang}"
             android:textColor="@color/app_text_color_primary"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView16"
+            app:layout_constraintBottom_toTopOf="@+id/textTotalHarga"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
@@ -42,7 +191,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/textTotalHarga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -90,7 +239,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Keranjang"
+                android:text="Penjualan"
                 android:textColor="@color/app_text_color_primary"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -184,14 +333,14 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewKeranjang"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/textView15"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/view20" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

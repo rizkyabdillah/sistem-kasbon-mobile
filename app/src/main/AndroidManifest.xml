@@ -14,15 +14,13 @@
         <activity android:name=".view.activity.KeranjangPenjualActivity" />
         <activity android:name=".view.activity.ResultActivity"/>
         <activity android:name=".view.activity.ProfilPembeliActivity" />
-        <activity android:name=".view.activity.LoginActivity" />
+        <activity android:name=".view.activity.LoginActivity"/>
         <activity android:name=".view.activity.PendaftaranActivity"/>
         <activity android:name=".view.activity.MainActivity" >
-
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

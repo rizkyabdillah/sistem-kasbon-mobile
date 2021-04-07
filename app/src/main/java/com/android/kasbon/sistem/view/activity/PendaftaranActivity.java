@@ -15,16 +15,10 @@ import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ActivityPendaftaranBinding;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
-import com.android.kasbon.sistem.utilitas.Preference;
 import com.android.kasbon.sistem.viewmodel.AuthViewModel;
 import com.android.kasbon.sistem.viewmodel.InsertViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +58,6 @@ public class PendaftaranActivity extends AppCompatActivity {
                                 user.put("nama", binding.editTextDaftarNama.getText().toString());
                                 user.put("telepon", null);
                                 user.put("alamat", null);
-                                user.put("saldo", 0);
                                 user.put("password", binding.editTextDaftarPassword.getText().toString());
 
                                 String idUser = task.getResult().getUser().getUid();
