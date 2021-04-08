@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/view9">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayoutAddCart"
+                    android:id="@+id/constraintLayoutSimpanHargaEmas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true">

@@ -36,7 +36,6 @@ public class ProfilPembeliActivity extends AppCompatActivity {
     private ActivityProfilPembeliBinding binding;
     private FirebaseUser firebaseUser;
     private final LifecycleOwner OWNER = this;
-    private boolean[] arrTask = new boolean[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

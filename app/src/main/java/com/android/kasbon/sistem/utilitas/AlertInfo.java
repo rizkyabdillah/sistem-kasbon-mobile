@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ViewCustomDialogInfoBinding;
+import com.intentfilter.androidpermissions.PermissionManager;
 
 public class AlertInfo {
 
@@ -54,8 +57,31 @@ public class AlertInfo {
         });
     }
 
+    public AlertInfo(Activity a, PermissionManager permissionManager) {
+        this(a);
+        binding.textCustom.setText("Aplikasi ini membutuhkan akses kamera dan storage, enable permission?");
+        binding.btnDialogInformasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", a.getPackageName(), null);
+                intent.setData(uri);
+                a.startActivityForResult(intent, permissionManager.getResultCode());
+                a.finish();
+            }
+        });
+    }
+
     public void showDialog() {
         this.alert.show();
+    }
+
+    public boolean isDialogShowing() {
+        return this.alert.isShowing();
+    }
+
+    public void dismissDialog() {
+        this.alert.dismiss();
     }
 
 

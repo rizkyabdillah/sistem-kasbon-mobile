@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.intentfilter.androidpermissions.PermissionManager;
+import com.intentfilter.androidpermissions.models.DeniedPermissions;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity{
@@ -39,7 +43,10 @@ public class LoginActivity extends AppCompatActivity{
     private AlertInfo alertInfo;
     private LifecycleOwner OWNER = this;
 
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private PermissionManager permissionManager;
+    private final String[] PERMISSION = {
+        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,7 @@ public class LoginActivity extends AppCompatActivity{
 //        readViewModel.readAll("Sips").observe(this, new Observer<DocumentSnapshot>() {
 //            @Override
 //            public void onChanged(DocumentSnapshot documentSnapshot) {
-////                Log.d("=============", documentSnapshot.getData().toString());
+//                Log.d("=============", documentSnapshot.getData().toString());
 //                if(documentSnapshot.getData() != null) {
 //                    readViewModel.updateData("o2mn9qBJXDRLtvaeCuj1kaLEqQZ2", documentSnapshot)
 //                        .observe(OWNER, new Observer<Boolean>() {
@@ -92,7 +99,7 @@ public class LoginActivity extends AppCompatActivity{
 
                     viewModel.firebaseSign(
                         binding.editTextLoginEmail.getText().toString(), binding.editTextLoginPassword.getText().toString()
-                    ).observe(LoginActivity.this, new Observer<Task<AuthResult>>() {
+                    ).observe(OWNER, new Observer<Task<AuthResult>>() {
                         @Override
                         public void onChanged(Task<AuthResult> task) {
                             if (task.isComplete()) {
@@ -114,6 +121,21 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    private void checkPermission() {
+        permissionManager = PermissionManager.getInstance(this);
+        permissionManager.checkPermissions(Arrays.asList(PERMISSION), new PermissionManager.PermissionRequestListener() {
+            @Override  public void onPermissionGranted() { }
+
+            @Override
+            public void onPermissionDenied(DeniedPermissions deniedPermissions) {
+                alertInfo = new AlertInfo(LoginActivity.this, permissionManager);
+                alertInfo.showDialog();
+            }
+        });
+    }
+
+
+
     private boolean checkInput() {
         int count = 0;
 
@@ -132,4 +154,9 @@ public class LoginActivity extends AppCompatActivity{
         return (count == 0);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkPermission();
+    }
 }

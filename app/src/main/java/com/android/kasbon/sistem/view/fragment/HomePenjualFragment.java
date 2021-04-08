@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.kasbon.sistem.adapter.TransaksiPenjualAdapter;
 import com.android.kasbon.sistem.databinding.FragmentHomePenjualBinding;
+import com.android.kasbon.sistem.view.activity.KeranjangPenjualActivity;
 import com.android.kasbon.sistem.view.activity.LoginActivity;
 import com.android.kasbon.sistem.view.activity.TransaksiAllActivity;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
@@ -63,17 +64,16 @@ public class HomePenjualFragment extends Fragment {
             }
         });
 
-        binding.constraintLayoutAddCart.setOnClickListener(new View.OnClickListener() {
+        binding.constraintLayoutSimpanHargaEmas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 
         binding.fabMasukKeranjang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(v.getContext(), KeranjangPenjualActivity.class));
             }
         });
 
