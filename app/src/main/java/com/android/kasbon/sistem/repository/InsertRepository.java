@@ -2,27 +2,42 @@ package com.android.kasbon.sistem.repository;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Map;
+import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.UserModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
 public class InsertRepository {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final WriteBatch batch = db.batch();
 
-    public MutableLiveData<String> insertDataUser(Map<String, Object> user, String idUser) {
-        MutableLiveData<String> liveData = new MutableLiveData<>();
-        db.collection("users").document(idUser).set(user)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) { liveData.postValue("SUKSES"); }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) { liveData.postValue(e.getMessage()); }
+    public MutableLiveData<Task<Void>> insertBatchUserJaminan(UserModel userModel, JaminanModel jaminan, String idUser) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        DocumentReference userReference = db.collection("users").document(idUser);
+        batch.set(userReference, userModel);
+
+        DocumentReference jaminanReference = db.collection("jaminan").document(idUser);
+        batch.set(jaminanReference, jaminan);
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                liveData.postValue(task);
             }
-        ); return liveData;
+        }); return liveData;
     }
+
+
+
+
+
+
+
+
 
 }

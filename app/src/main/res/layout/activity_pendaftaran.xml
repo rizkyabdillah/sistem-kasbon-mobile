@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="user"
+            type="com.android.kasbon.sistem.model.UserModel" />
 
+        <variable
+            name="auth"
+            type="com.android.kasbon.sistem.model.AuthModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,9 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/app_background_secondary"
             app:cardCornerRadius="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,6 +71,7 @@
                     android:background="@color/app_background_secondary"
                     android:fontFamily="@font/roboto_light"
                     android:hint="Nama"
+                    android:text="@={user.nama}"
                     android:inputType="textPersonName"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
@@ -99,7 +104,8 @@
                     android:background="@color/app_background_secondary"
                     android:fontFamily="@font/roboto_light"
                     android:hint="Email"
-                    android:inputType="textPersonName"
+                    android:text="@={auth.email}"
+                    android:inputType="textEmailAddress"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -132,6 +138,7 @@
                     android:background="@color/app_background_secondary"
                     android:fontFamily="@font/roboto_light"
                     android:hint="Password"
+                    android:text="@={auth.password}"
                     android:inputType="textPassword"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"

@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.InsertRepository;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.android.gms.tasks.Task;
 
 public class InsertViewModel extends AndroidViewModel {
 
@@ -20,8 +20,8 @@ public class InsertViewModel extends AndroidViewModel {
         this.repository = new InsertRepository();
     }
 
-    public MutableLiveData<String> insertDataUser(Map<String, Object> user, String idUser) {
-        return repository.insertDataUser(user, idUser);
+    public MutableLiveData<Task<Void>> insertBatchUserJaminan(UserModel userModel, JaminanModel jaminan, String idUser) {
+        return repository.insertBatchUserJaminan(userModel, jaminan, idUser);
     }
 
 

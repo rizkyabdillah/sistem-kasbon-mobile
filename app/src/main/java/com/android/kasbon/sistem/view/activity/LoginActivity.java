@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ActivityLoginBinding;
+import com.android.kasbon.sistem.model.AuthModel;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.viewmodel.AuthViewModel;
@@ -37,11 +38,11 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity{
 
     private AuthViewModel viewModel;
-    private ReadViewModel readViewModel;
     private ActivityLoginBinding binding;
     private AlertProgress alertProgress;
     private AlertInfo alertInfo;
-    private LifecycleOwner OWNER = this;
+    private AuthModel auths;
+    private final LifecycleOwner OWNER = this;
 
     private PermissionManager permissionManager;
     private final String[] PERMISSION = {
@@ -52,6 +53,9 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+
+        auths = new AuthModel();
+        binding.setAuth(auths);
 
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 //        readViewModel = ViewModelProviders.of(this).get(ReadViewModel.class);
@@ -97,9 +101,7 @@ public class LoginActivity extends AppCompatActivity{
                     alertProgress = new AlertProgress(v, "Sedang mengautentikasi data");
                     alertProgress.showDialog();
 
-                    viewModel.firebaseSign(
-                        binding.editTextLoginEmail.getText().toString(), binding.editTextLoginPassword.getText().toString()
-                    ).observe(OWNER, new Observer<Task<AuthResult>>() {
+                    viewModel.firebaseSign(auths.getEmail(), auths.getPassword()).observe(OWNER, new Observer<Task<AuthResult>>() {
                         @Override
                         public void onChanged(Task<AuthResult> task) {
                             if (task.isComplete()) {
@@ -139,13 +141,13 @@ public class LoginActivity extends AppCompatActivity{
     private boolean checkInput() {
         int count = 0;
 
-        if(binding.editTextLoginEmail.getText().toString().isEmpty()) {
+        if(auths.getEmail().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Email anda masih kosong", Toast.LENGTH_SHORT).show();
             binding.editTextLoginEmail.requestFocus();
             count++;
         }
 
-        if(binding.editTextLoginPassword.getText().toString().isEmpty()) {
+        if(auths.getPassword().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Password anda masih kosong", Toast.LENGTH_SHORT).show();
             binding.editTextLoginPassword.requestFocus();
             count++;

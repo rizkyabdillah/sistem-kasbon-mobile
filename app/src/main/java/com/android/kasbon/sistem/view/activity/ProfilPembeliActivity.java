@@ -1,7 +1,6 @@
 package com.android.kasbon.sistem.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -9,18 +8,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.widget.Toast;
 
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ActivityProfilPembeliBinding;
-import com.android.kasbon.sistem.model.User;
+import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
 import com.android.kasbon.sistem.viewmodel.UpdateViewModel;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,6 +32,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
     private AlertInfo alertInfo;
     private ActivityProfilPembeliBinding binding;
     private FirebaseUser firebaseUser;
+    private UserModel users;
     private final LifecycleOwner OWNER = this;
 
     @Override
@@ -49,13 +47,11 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         alertProgress.showDialog();
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<User>() {
+        readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<UserModel>() {
             @Override
-            public void onChanged(User user) {
+            public void onChanged(UserModel userModel) {
                 alertProgress.dismissDialog();
-                if(user != null) {
-                    user.setEmail(firebaseUser.getEmail());
-                    binding.setUser(user);
+                if(userModel != null) {
                 } else {
                     Toast.makeText(getApplicationContext(), "Terdapat kesalahan koneksi", Toast.LENGTH_SHORT).show();
                 }
@@ -68,12 +64,13 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                 if(checkInput()) {
 
                     Map<String, Object> user = new HashMap<>();
-                    user.put("nama", binding.editTextTextProfileNama.getText().toString());
-                    user.put("telepon", binding.editTextTextProfileTelepon.getText().toString());
-                    user.put("alamat", binding.editTextProfileAlamat.getText().toString());
+                    user.put("nama", users.getNama());
+                    user.put("telepon", users.getTelepon());
+                    user.put("alamat", users.getAlamat());
 
                     alertProgress = new AlertProgress(v, "Sedang mengupdate data");
                     alertProgress.showDialog();
+
                     updateViewModel.updateDataUser(user, firebaseUser.getUid()).observe(OWNER, new Observer<String>() {
                         @Override
                         public void onChanged(String s) {
@@ -125,7 +122,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         alertProgress.showDialog();
 
         updateViewModel.updateEmailUser(
-            email, firebaseUser.getEmail(), binding.getUser().getPassword()
+            email, firebaseUser.getEmail(), ""
         ) .observe(OWNER, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -149,7 +146,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         alertProgress.showDialog();
 
         updateViewModel.updatePasswordUser(
-            password, firebaseUser.getEmail(), binding.getUser().getPassword()
+            password, firebaseUser.getEmail(), ""
         ).observe(OWNER, new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -181,22 +178,22 @@ public class ProfilPembeliActivity extends AppCompatActivity {
     private boolean checkInput() {
         int count = 0;
 
-        if(binding.editTextTextProfileNama.getText().toString().isEmpty()) {
+        if(users.getNama().isEmpty()) {
             Toast.makeText(getApplicationContext(), getPrefixInputEmpty("nama"), Toast.LENGTH_SHORT).show();
             count++;
         }
 
-        if(binding.editTextTextProfileEmail.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("email"), Toast.LENGTH_SHORT).show();
-            count++;
-        }
+//        if("users.getEmail().isEmpty()") {
+//            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("email"), Toast.LENGTH_SHORT).show();
+//            count++;
+//        }
 
-        if(binding.editTextTextProfileTelepon.getText().toString().isEmpty()) {
+        if(users.getTelepon().isEmpty()) {
             Toast.makeText(getApplicationContext(), getPrefixInputEmpty("telepon"), Toast.LENGTH_SHORT).show();
             count++;
         }
 
-        if(binding.editTextProfileAlamat.getText().toString().isEmpty()) {
+        if(users.getAlamat().isEmpty()) {
             Toast.makeText(getApplicationContext(), getPrefixInputEmpty("alamat"), Toast.LENGTH_SHORT).show();
             count++;
         }

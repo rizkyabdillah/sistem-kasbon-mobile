@@ -17,9 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.kasbon.sistem.adapter.TransaksiPembeliAdapter;
-import com.android.kasbon.sistem.adapter.TransaksiPenjualAdapter;
 import com.android.kasbon.sistem.databinding.FragmentHomePembeliBinding;
-import com.android.kasbon.sistem.model.User;
+import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.view.activity.LoginActivity;
 import com.android.kasbon.sistem.view.activity.ProfilPembeliActivity;
 import com.android.kasbon.sistem.view.activity.TransaksiAllActivity;
@@ -79,10 +78,10 @@ public class HomePembeliFragment extends Fragment {
             }
         });
 
-        readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<User>() {
+        readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<UserModel>() {
             @Override
-            public void onChanged(User user) {
-                binding.setUser(user);
+            public void onChanged(UserModel userModel) {
+                binding.setUserModel(userModel);
             }
         });
 

@@ -6,8 +6,17 @@
     <data>
 
         <variable
-            name="user"
-            type="com.android.kasbon.sistem.model.User" />
+            name="userModel"
+            type="com.android.kasbon.sistem.model.UserModel" />
+
+        <variable
+            name="jaminan"
+            type="com.android.kasbon.sistem.model.JaminanModel" />
+
+        <variable
+            name="constant"
+            type="com.android.kasbon.sistem.model.Constant" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +101,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan nama"
                     android:inputType="textPersonName"
-                    android:text="@{user.nama}"
+                    android:text="@={userModel.nama}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -126,7 +135,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan no telp"
                     android:inputType="textPersonName"
-                    android:text="@{user.telepon}"
+                    android:text="@={userModel.telepon}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -173,7 +182,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan email"
                     android:inputType="textEmailAddress"
-                    android:text="@{user.email}"
+                    android:text=""
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -312,7 +321,7 @@
                         android:inputType="textMultiLine"
                         android:maxLines="4"
                         android:minLines="2"
-                        android:text="@{user.alamat}"
+                        android:text="@={userModel.alamat}"
                         android:textColor="@color/white"
                         android:textColorHint="@color/app_text_color_secondary"
                         android:textSize="18sp" />
@@ -346,7 +355,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/view8" />
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/textViewLimitYangDidapat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -382,7 +391,7 @@
                     android:textColor="@color/app_text_color_primary"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                    app:layout_constraintTop_toBottomOf="@+id/textViewLimitYangDidapat" />
 
                 <TextView
                     android:id="@+id/textView27"
@@ -411,7 +420,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
                 <EditText
-                    android:id="@+id/editTextTextProfileTelepon2"
+                    android:id="@+id/editTextJaminanEmas"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="32dp"
@@ -441,7 +450,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextProfileTelepon2" />
+                    app:layout_constraintTop_toBottomOf="@+id/editTextJaminanEmas" />
 
 
                 <TextView
@@ -451,7 +460,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Rp. 900.000"
+                    android:text="@{constant.hargaEmasFormatted}"
                     android:textColor="@color/app_text_color_primary"
                     android:textSize="28sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -490,6 +499,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <RadioGroup
+                    android:id="@+id/rdbGroupJaminanDititipkan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"

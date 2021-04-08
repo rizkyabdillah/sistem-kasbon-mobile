@@ -6,9 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.android.kasbon.sistem.model.User;
+import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.ReadRepository;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class ReadViewModel extends AndroidViewModel {
@@ -20,7 +19,7 @@ public class ReadViewModel extends AndroidViewModel {
         this.repository = new ReadRepository();
     }
 
-    public MutableLiveData<User> readDataUser(String uIdUser) {
+    public MutableLiveData<UserModel> readDataUser(String uIdUser) {
         return repository.readDataUser(uIdUser);
     }
 
