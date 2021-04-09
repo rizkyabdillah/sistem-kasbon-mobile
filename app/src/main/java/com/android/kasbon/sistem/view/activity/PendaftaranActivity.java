@@ -60,7 +60,7 @@ public class PendaftaranActivity extends AppCompatActivity {
 
                     alertInfo = new AlertInfo(THIS,"Data berhasil terdaftar", new Intent(THIS, MainActivity.class));
 
-                    authViewModel.firebaseCreateNewUser(auths.getEmail(), auths.getPassword()).observe(OWNER, new Observer<Task<AuthResult>>() {
+                    authViewModel.firebaseCreateNewUser(auths).observe(OWNER, new Observer<Task<AuthResult>>() {
                         @Override
                         public void onChanged(Task<AuthResult> task) {
                             if(task.isSuccessful()) {

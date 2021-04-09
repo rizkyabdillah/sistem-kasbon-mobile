@@ -9,13 +9,14 @@ import com.android.kasbon.sistem.BR;
 
 public class JaminanModel extends BaseObservable {
 
-    private String foto = null, jenis_jaminan = null;
-    private int berat_emas = 0, limit_kredit = 0;
+    private String foto = "", berat_emas = "0.0";
+    private boolean jenis_jaminan = true;
+    private Double limit_kredit = 0.0;
 
     public JaminanModel() {
     }
 
-    public JaminanModel(String foto, String jenis_jaminan, int berat_emas, int limit_kredit) {
+    public JaminanModel(String foto, boolean jenis_jaminan, String berat_emas, Double limit_kredit) {
         this.foto = foto;
         this.jenis_jaminan = jenis_jaminan;
         this.berat_emas = berat_emas;
@@ -33,32 +34,32 @@ public class JaminanModel extends BaseObservable {
     }
 
     @Bindable
-    public String getJenis_jaminan() {
+    public boolean getJenis_jaminan() {
         return jenis_jaminan;
     }
 
-    public void setJenis_jaminan(String jenis_jaminan) {
+    public void setJenis_jaminan(boolean jenis_jaminan) {
         this.jenis_jaminan = jenis_jaminan;
         notifyPropertyChanged(BR.jenis_jaminan);
     }
 
     @Bindable
-    public int getBerat_emas() {
+    public String getBerat_emas() {
         return berat_emas;
     }
 
 
-    public void setBerat_emas(int berat_emas) {
+    public void setBerat_emas(String berat_emas) {
         this.berat_emas = berat_emas;
         notifyPropertyChanged(BR.berat_emas);
     }
 
     @Bindable
-    public int getLimit_kredit() {
+    public double getLimit_kredit() {
         return limit_kredit;
     }
 
-    public void setLimit_kredit(int limit_kredit) {
+    public void setLimit_kredit(Double limit_kredit) {
         this.limit_kredit = limit_kredit;
         notifyPropertyChanged(BR.limit_kredit);
     }

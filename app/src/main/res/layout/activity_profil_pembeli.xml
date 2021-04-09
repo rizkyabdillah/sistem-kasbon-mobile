@@ -6,16 +6,16 @@
     <data>
 
         <variable
-            name="userModel"
+            name="operation"
+            type="com.android.kasbon.sistem.model.OperationProfileModel" />
+
+        <variable
+            name="user"
             type="com.android.kasbon.sistem.model.UserModel" />
 
         <variable
-            name="jaminan"
-            type="com.android.kasbon.sistem.model.JaminanModel" />
-
-        <variable
-            name="constant"
-            type="com.android.kasbon.sistem.model.Constant" />
+            name="auth"
+            type="com.android.kasbon.sistem.model.AuthModel" />
 
     </data>
 
@@ -101,7 +101,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan nama"
                     android:inputType="textPersonName"
-                    android:text="@={userModel.nama}"
+                    android:text="@={user.nama}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -135,7 +135,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan no telp"
                     android:inputType="textPersonName"
-                    android:text="@={userModel.telepon}"
+                    android:text="@={user.telepon}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -182,7 +182,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan email"
                     android:inputType="textEmailAddress"
-                    android:text=""
+                    android:text="@={auth.email}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -232,6 +232,7 @@
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
                     android:textSize="18sp"
+                    android:text="@={auth.password}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -296,7 +297,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="32dp"
                     android:background="@color/app_background"
                     android:scrollbarThumbHorizontal="@color/app_background"
@@ -321,7 +322,7 @@
                         android:inputType="textMultiLine"
                         android:maxLines="4"
                         android:minLines="2"
-                        android:text="@={userModel.alamat}"
+                        android:text="@={user.alamat}"
                         android:textColor="@color/white"
                         android:textColorHint="@color/app_text_color_secondary"
                         android:textSize="18sp" />
@@ -372,13 +373,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Limit yang Didapat"
                     android:textColor="@color/app_text_color_primary"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view16" />
+                    app:layout_constraintTop_toBottomOf="@+id/linearJaminanEmas" />
 
                 <TextView
                     android:id="@+id/textView26"
@@ -411,7 +412,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Berat Emas (gram)"
                     android:textColor="@color/app_text_color_primary"
@@ -419,38 +420,71 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
-                <EditText
-                    android:id="@+id/editTextJaminanEmas"
+                <LinearLayout
+                    android:id="@+id/linearJaminanEmas"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
-                    android:background="@color/app_background"
-                    android:fontFamily="@font/roboto_light"
-                    android:hint="1"
-                    android:inputType="number"
-                    android:text=""
-                    android:textColor="@color/app_text_color_primary"
-                    android:textColorHint="@color/app_text_color_secondary"
-                    android:textDirection="inherit"
-                    android:textSize="18sp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView21">
 
-                <View
-                    android:id="@+id/view16"
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:background="@color/app_text_color_grey"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextJaminanEmas" />
+                    <ImageView
+                        android:id="@+id/btnMinus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round_bg_white"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_minus" />
+
+                    <TextView
+                        android:id="@+id/textBeratEmas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="0.0"
+                        android:textColor="@color/app_text_color_primary"
+                        android:textSize="24sp" />
+
+
+                    <ImageView
+                        android:id="@+id/btnPlus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round_bg_white"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_plus" />
+                </LinearLayout>
+
+<!--                <EditText-->
+<!--                    android:id="@+id/constraintJaminanEmas"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginStart="32dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginEnd="32dp"-->
+<!--                    android:background="@color/app_background"-->
+<!--                    android:fontFamily="@font/roboto_light"-->
+<!--                    android:hint="1"-->
+<!--                    android:inputType="number"-->
+<!--                    android:text="@{operation.beratEmas}"-->
+<!--                    android:textColor="@color/app_text_color_primary"-->
+<!--                    android:textColorHint="@color/app_text_color_secondary"-->
+<!--                    android:textDirection="inherit"-->
+<!--                    android:textSize="18sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView21" />-->
 
 
                 <TextView
@@ -460,7 +494,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@{constant.hargaEmasFormatted}"
+                    android:text="@{operation.hargaEmas}"
                     android:textColor="@color/app_text_color_primary"
                     android:textSize="28sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -491,7 +525,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView26">
 
                     <ImageView
-                        android:id="@+id/imageView2"
+                        android:id="@+id/imageJaminan"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
@@ -506,16 +540,18 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:checkedButton="@id/rdbYes"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView27">
+                    app:layout_constraintTop_toBottomOf="@+id/textView27"
+                    android:focusable="true">
 
                     <RadioButton
                         android:id="@+id/rdbYes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/app_red"
-                        android:checked="true"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Ya"
                         android:textColor="@color/app_text_color_primary" />

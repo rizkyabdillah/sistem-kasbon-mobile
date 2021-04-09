@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity{
                     alertProgress = new AlertProgress(v, "Sedang mengautentikasi data");
                     alertProgress.showDialog();
 
-                    viewModel.firebaseSign(auths.getEmail(), auths.getPassword()).observe(OWNER, new Observer<Task<AuthResult>>() {
+                    viewModel.firebaseSign(auths).observe(OWNER, new Observer<Task<AuthResult>>() {
                         @Override
                         public void onChanged(Task<AuthResult> task) {
                             if (task.isComplete()) {

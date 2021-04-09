@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.android.kasbon.sistem.adapter.TransaksiPembeliAdapter;
 import com.android.kasbon.sistem.databinding.FragmentHomePembeliBinding;
+import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.OperationDashboardModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.view.activity.LoginActivity;
 import com.android.kasbon.sistem.view.activity.ProfilPembeliActivity;
@@ -32,8 +34,8 @@ public class HomePembeliFragment extends Fragment {
     private FragmentHomePembeliBinding binding;
     private ReadViewModel readViewModel;
     private TransaksiPembeliAdapter adapter;
-    private FirebaseUser firebaseUser;
     private final LifecycleOwner OWNER = this;
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,9 +46,6 @@ public class HomePembeliFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
         readViewModel = ViewModelProviders.of(this).get(ReadViewModel.class);
 
         binding.recyclerViewTransaksiPembeli.setHasFixedSize(true);
@@ -69,21 +68,18 @@ public class HomePembeliFragment extends Fragment {
             }
         });
 
-        readViewModel.readDataTransaksiUser(firebaseUser.getUid()).observe(OWNER, new Observer<QuerySnapshot>() {
-            @Override
-            public void onChanged(QuerySnapshot queryDocumentSnapshots) {
-
-                adapter = new TransaksiPembeliAdapter(queryDocumentSnapshots);
-                binding.recyclerViewTransaksiPembeli.setAdapter(adapter);
-            }
-        });
-
         readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<UserModel>() {
             @Override
             public void onChanged(UserModel userModel) {
-                binding.setUserModel(userModel);
+                readViewModel.readDataJaminan(firebaseUser.getUid()).observe(OWNER, new Observer<JaminanModel>() {
+                    @Override
+                    public void onChanged(JaminanModel jaminanModel) {
+                        binding.setDashboard(new OperationDashboardModel(userModel, jaminanModel));
+                    }
+                });
             }
         });
+
 
         binding.btnLihatSemua.setOnClickListener(new View.OnClickListener() {
             @Override

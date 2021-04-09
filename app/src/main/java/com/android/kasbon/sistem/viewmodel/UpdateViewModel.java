@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.repository.UpdateRepository;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Map;
 
@@ -23,12 +24,12 @@ public class UpdateViewModel extends AndroidViewModel {
         return repository.updateDataUser(user, uIdUser);
     }
 
-    public MutableLiveData<String> updateEmailUser(String email, String emailBefore, String pass) {
-        return repository.updateEmailUser(email, emailBefore, pass);
+    public MutableLiveData<Task<Void>> updateEmailUser(String email, String emailBefore, String password) {
+        return repository.updateEmailUser(email, emailBefore, password);
     }
 
-    public MutableLiveData<String> updatePasswordUser(String password, String email, String pass) {
-        return repository.updatePasswordUser(password, email, pass);
+    public MutableLiveData<Task<Void>> updatePasswordUser(String passwordBefore, String email, String password) {
+        return repository.updatePasswordUser(passwordBefore, email, password);
     }
 
 

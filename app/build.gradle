@@ -65,4 +65,7 @@ dependencies {
     // Android permission
     implementation 'com.intentfilter:android-permissions:2.0.54'
 
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }

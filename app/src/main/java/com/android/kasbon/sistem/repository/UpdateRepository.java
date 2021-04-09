@@ -3,6 +3,7 @@ package com.android.kasbon.sistem.repository;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -33,37 +34,33 @@ public class UpdateRepository {
         return liveData;
     }
 
-    public MutableLiveData<String> updateEmailUser(String email, String emailBefore, String pass) {
-        MutableLiveData<String> liveData = new MutableLiveData<>();
-        AuthCredential credential = EmailAuthProvider.getCredential(emailBefore, pass);
+    public MutableLiveData<Task<Void>> updateEmailUser(String email, String emailBefore, String password) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        AuthCredential credential = EmailAuthProvider.getCredential(emailBefore, password);
         firebaseUser.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                firebaseUser.updateEmail(email)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) { liveData.postValue("SUKSES"); }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) { liveData.postValue(e.getMessage());}
+                firebaseUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        liveData.setValue(task);
+                    }
                 });
             }
         });  return liveData;
     }
 
-    public MutableLiveData<String> updatePasswordUser(String password, String email, String pass) {
-        MutableLiveData<String> liveData = new MutableLiveData<>();
-        AuthCredential credential = EmailAuthProvider.getCredential(email, pass);
+    public MutableLiveData<Task<Void>> updatePasswordUser(String passwordBefore, String email, String password) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        AuthCredential credential = EmailAuthProvider.getCredential(email, password);
         firebaseUser.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                firebaseUser.updatePassword(password).addOnSuccessListener(new OnSuccessListener<Void>() {
+                firebaseUser.updatePassword(passwordBefore).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(Void aVoid) { liveData.postValue("SUKSES");}
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { liveData.postValue(e.getMessage());}
+                    public void onComplete(@NonNull Task<Void> task) {
+                        liveData.postValue(task);
+                    }
                 });
             }
         }); return liveData;

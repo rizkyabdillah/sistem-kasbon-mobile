@@ -1,8 +1,12 @@
 package com.android.kasbon.sistem.repository;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.kasbon.sistem.model.ConstantModel;
+import com.android.kasbon.sistem.model.JaminanModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -20,6 +24,16 @@ public class ReadRepository {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 liveData.postValue(value.toObject(UserModel.class));
+            }
+        }); return liveData;
+    }
+
+    public MutableLiveData<JaminanModel> readDataJaminan(String uIdUser) {
+        MutableLiveData<JaminanModel> liveData = new MutableLiveData<>();
+        db.collection("jaminan").document(uIdUser).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                liveData.postValue(value.toObject(JaminanModel.class));
             }
         }); return liveData;
     }
@@ -44,32 +58,16 @@ public class ReadRepository {
         }); return liveData;
     }
 
-//    public MutableLiveData<DocumentSnapshot> readAll(String path) {
-//        MutableLiveData<DocumentSnapshot> liveData = new MutableLiveData<>();
-//        db.collection("transaksi").document(path).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                liveData.postValue(documentSnapshot);
-//            }
-//        });
-//        return liveData;
-//    }
-//
-//    public MutableLiveData<Boolean> updateData(String path, DocumentSnapshot value) {
-//        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
-//        db.collection("transaksi").document(path).set(value.getData()).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                liveData.postValue(true);
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                liveData.postValue(false);
-//            }
-//        });
-//        return liveData;
-//    }
+    public MutableLiveData<ConstantModel> readDataHargaEmas() {
+        MutableLiveData<ConstantModel> liveData = new MutableLiveData<>();
+        db.collection("constant").document("HARGA_EMAS").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                liveData.postValue(value.toObject(ConstantModel.class));
+            }
+        }); return liveData;
+    }
+
 
 
 
