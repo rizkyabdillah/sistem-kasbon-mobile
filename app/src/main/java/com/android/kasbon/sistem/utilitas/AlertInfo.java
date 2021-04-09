@@ -44,6 +44,20 @@ public class AlertInfo {
         });
     }
 
+    public AlertInfo(Activity a, String textCustom, boolean isFinish) {
+        this(a);
+        binding.textCustom.setText(textCustom);
+        binding.btnDialogInformasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                if(isFinish) {
+                    a.finish();
+                }
+            }
+        });
+    }
+
     public AlertInfo(Activity a, String textCustom, Intent intent) {
         this(a);
         binding.textCustom.setText(textCustom);

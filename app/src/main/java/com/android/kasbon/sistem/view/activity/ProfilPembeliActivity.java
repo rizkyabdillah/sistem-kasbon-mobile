@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -27,8 +28,10 @@ import com.android.kasbon.sistem.model.OperationProfileModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
+import com.android.kasbon.sistem.viewmodel.InsertViewModel;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
 import com.android.kasbon.sistem.viewmodel.UpdateViewModel;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,13 +47,14 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
     private ReadViewModel readViewModel;
     private UpdateViewModel updateViewModel;
-    private AlertProgress alertProgress;
-    private AlertInfo alertInfo;
+    private InsertViewModel insertViewModel;
+
     private ActivityProfilPembeliBinding binding;
     private FirebaseUser firebaseUser;
     private ConstantModel constant;
     private final LifecycleOwner OWNER = this;
-    private Uri filePath = null;
+    private final Activity THIS = ProfilPembeliActivity.this;
+    private String imageUri = null, passChange = null;
     private double limitYangDidapat = 0.0;
 
     @Override
@@ -60,6 +64,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
         readViewModel = ViewModelProviders.of(this).get(ReadViewModel.class);
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
+        insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
 
 
 
@@ -71,16 +76,16 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
 
         // Set alert dialog progress
-        alertProgress = new AlertProgress(this, "Sedang mengambil data");
+        AlertProgress alertProgress = new AlertProgress(this, "Sedang mengambil data");
         alertProgress.showDialog();
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        binding.setAuth(new AuthModel(firebaseUser.getEmail(), ""));
         // Read all data
         readViewModel.readDataUser(firebaseUser.getUid()).observe(OWNER, new Observer<UserModel>() {
             @Override
             public void onChanged(UserModel userModel) {
                 binding.setUser(userModel);
-                binding.setAuth(new AuthModel(firebaseUser.getEmail(), ""));
                 readViewModel.readDataJaminan(firebaseUser.getUid()).observe(OWNER, new Observer<JaminanModel>() {
                     @SuppressLint("SetTextI18n")
                     @Override
@@ -88,8 +93,8 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                         int checked = jaminanModel.getJenis_jaminan() ? R.id.rdbYes : R.id.rdbNo;
                         binding.rdbGroupJaminanDititipkan.check(checked);
                         binding.textBeratEmas.setText(jaminanModel.getBerat_emas());
-                        Log.d("================", "" + jaminanModel.getBerat_emas());
-                        Picasso.get().load(Uri.parse(jaminanModel.getFoto())).placeholder(R.drawable.ic_image).into(binding.imageJaminan);
+                        setPicasso(Uri.parse(jaminanModel.getFoto()));
+                        imageUri = jaminanModel.getFoto();
                         readViewModel.readDataHargaEmas().observe(OWNER, new Observer<ConstantModel>() {
                             @Override
                             public void onChanged(ConstantModel constantModel) {
@@ -116,6 +121,63 @@ public class ProfilPembeliActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkInput()) {
+                    AlertProgress alertProgress = new AlertProgress(THIS, "Sedang mengupdate data");
+                    alertProgress.showDialog();
+
+                    final double BERAT_EMAS = Double.parseDouble(binding.textBeratEmas.getText().toString());
+
+                    JaminanModel jaminanModel = new JaminanModel();
+                    jaminanModel.setBerat_emas(String.valueOf(BERAT_EMAS));
+                    jaminanModel.setLimit_kredit(limitYangDidapat);
+                    jaminanModel.setJenis_jaminan(binding.rdbYes.isChecked());
+
+                    UserModel userModel = binding.getUser();
+                    passChange = userModel.getPassword();
+                    if(!binding.getAuth().getPassword().isEmpty()) {
+                        userModel.setPassword(binding.getAuth().getPassword());
+                    }
+
+                    updateViewModel.updateBatchUserJaminan(userModel, jaminanModel,firebaseUser.getUid()).observe(OWNER, new Observer<Task<Void>>() {
+                        @Override
+                        public void onChanged(Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                Log.d("===============", "LOLOS");
+                                updateViewModel.updateEmailUser(binding.getAuth(), passChange).observe(OWNER, new Observer<Task<Void>>() {
+                                    @Override
+                                    public void onChanged(Task<Void> task) {
+                                        if(task.isSuccessful()) {
+                                            Log.d("===============", "LOLOS1");
+                                            if(passChange.equals(userModel.getPassword())) {
+                                                alertProgress.dismissDialog();
+                                                new AlertInfo(THIS, "Data berhasil diubah", true).showDialog();
+                                            } else {
+                                                updateViewModel.updatePasswordUser(binding.getAuth(), passChange).observe(OWNER, new Observer<Task<Void>>() {
+                                                    @Override
+                                                    public void onChanged(Task<Void> task) {
+                                                        if(task.isComplete()) {
+                                                            Log.d("===============", "LOLOS2");
+                                                            alertProgress.dismissDialog();
+                                                            if (!task.isSuccessful()) {
+                                                                new AlertInfo(THIS, task.getException().getMessage()).showDialog();
+                                                            } else {
+                                                                new AlertInfo(THIS, "Data berhasil diubah", true).showDialog();
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        } else {
+                                            alertProgress.dismissDialog();
+                                            new AlertInfo(THIS, task.getException().getMessage()).showDialog();
+                                        }
+                                    }
+                                });
+                            } else {
+                                alertProgress.dismissDialog();
+                                new AlertInfo(THIS, task.getException().getMessage()).showDialog();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -184,6 +246,8 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
     }
 
+
+
     private double getPendapatan(ConstantModel constant, double beratEmas) {
         final double persen = binding.rdbYes.isChecked() ? 0.75 : 0.5;
         return constant.getHarga() * beratEmas * persen;
@@ -201,8 +265,30 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            filePath = data.getData();
-            binding.imageJaminan.setImageURI(filePath);
+            AlertProgress alertProgress = new AlertProgress(this, "Sedang mengupload foto");
+            alertProgress.showDialog();
+            insertViewModel.insertFoto(data.getData()).observe(OWNER, new Observer<Task<Uri>>() {
+                @Override
+                public void onChanged(Task<Uri> task) {
+                    if(task.isSuccessful()) {
+                        imageUri = task.getResult().toString();
+                        updateViewModel.updateUriFoto(imageUri.toString(), firebaseUser.getUid()).observe(OWNER, new Observer<Task<Void>>() {
+                            @Override
+                            public void onChanged(Task<Void> task) {
+                                alertProgress.dismissDialog();
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "Foto berhasil diupdate", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    new AlertInfo(THIS, task.getException().getMessage()).showDialog();
+                                }
+                            }
+                        });
+                    } else {
+                        alertProgress.dismissDialog();
+                        new AlertInfo(THIS, task.getException().getMessage()).showDialog();
+                    }
+                }
+            });
         } else {
             Toast.makeText(this, "Tidak ada gambar yang dipilih", Toast.LENGTH_SHORT).show();
         }
@@ -210,12 +296,8 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
     // =================================
 
-    public Bitmap scaleDown(Uri uri) throws IOException {
-        Bitmap b = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-        final double ratio = Math.min((double) 600 / b.getWidth(), (double) 600 / b.getHeight());
-        final double width = Math.round(ratio * b.getWidth());
-        final double height = Math.round(ratio * b.getHeight());
-        return Bitmap.createScaledBitmap(b, (int) width, (int) height, true);
+    public void setPicasso(Uri uri) {
+        Picasso.get().load(uri).placeholder(R.drawable.ic_image).into(binding.imageJaminan);
     }
 
     // =================================
@@ -223,25 +305,30 @@ public class ProfilPembeliActivity extends AppCompatActivity {
     private boolean checkInput() {
         int count = 0;
 
-//        if(users.getNama().isEmpty()) {
-//            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("nama"), Toast.LENGTH_SHORT).show();
-//            count++;
-//        }
+        if(binding.getUser().getNama().isEmpty()) {
+            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("nama"), Toast.LENGTH_SHORT).show();
+            count++;
+        }
 
-//        if("users.getEmail().isEmpty()") {
-//            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("email"), Toast.LENGTH_SHORT).show();
-//            count++;
-//        }
+        if(binding.getUser().getTelepon().isEmpty()) {
+            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("telepon"), Toast.LENGTH_SHORT).show();
+            count++;
+        }
 
-//        if(users.getTelepon().isEmpty()) {
-//            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("telepon"), Toast.LENGTH_SHORT).show();
-//            count++;
-//        }
-//
-//        if(users.getAlamat().isEmpty()) {
-//            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("alamat"), Toast.LENGTH_SHORT).show();
-//            count++;
-//        }
+        if(binding.getUser().getAlamat().isEmpty()) {
+            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("alamat"), Toast.LENGTH_SHORT).show();
+            count++;
+        }
+
+        if(binding.getAuth().getEmail().isEmpty()) {
+            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("email"), Toast.LENGTH_SHORT).show();
+            count++;
+        }
+
+        if(imageUri.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Foto jaminan belum terpilih", Toast.LENGTH_SHORT).show();
+            count++;
+        }
 
         return (count == 0);
     }

@@ -1,11 +1,15 @@
 package com.android.kasbon.sistem.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.kasbon.sistem.model.AuthModel;
+import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.UpdateRepository;
 import com.google.android.gms.tasks.Task;
 
@@ -20,16 +24,20 @@ public class UpdateViewModel extends AndroidViewModel {
         this.repository = new UpdateRepository();
     }
 
-    public MutableLiveData<String> updateDataUser(Map<String, Object> user, String uIdUser) {
-        return repository.updateDataUser(user, uIdUser);
+    public MutableLiveData<Task<Void>> updateEmailUser(AuthModel authModel, String password) {
+        return repository.updateEmailUser(authModel, password);
     }
 
-    public MutableLiveData<Task<Void>> updateEmailUser(String email, String emailBefore, String password) {
-        return repository.updateEmailUser(email, emailBefore, password);
+    public MutableLiveData<Task<Void>> updatePasswordUser(AuthModel authModel, String password) {
+        return repository.updatePasswordUser(authModel, password);
     }
 
-    public MutableLiveData<Task<Void>> updatePasswordUser(String passwordBefore, String email, String password) {
-        return repository.updatePasswordUser(passwordBefore, email, password);
+    public MutableLiveData<Task<Void>> updateBatchUserJaminan(UserModel user, JaminanModel jaminan, String idUser) {
+        return repository.updateBatchUserJaminan(user, jaminan, idUser);
+    }
+
+    public MutableLiveData<Task<Void>> updateUriFoto(String uri, String idUser) {
+        return repository.updateUriFoto(uri, idUser);
     }
 
 

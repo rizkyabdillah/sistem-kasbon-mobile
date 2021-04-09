@@ -14,7 +14,9 @@ public class AuthModel extends BaseObservable {
 
     public AuthModel(String email, String password) {
         this.email = email;
+        notifyPropertyChanged(BR.email);
         this.password = password;
+        notifyPropertyChanged(BR.password);
     }
 
     @Bindable
