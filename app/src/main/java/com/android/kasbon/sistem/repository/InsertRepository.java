@@ -12,6 +12,7 @@ import com.android.kasbon.sistem.model.ItemKeranjangModel;
 import com.android.kasbon.sistem.model.JaminanModel;
 import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
+import com.android.kasbon.sistem.utilitas.UtilsSingleton;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,11 +74,9 @@ public class InsertRepository {
         MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
         for(int i = 0; i < list.size(); i++) {
             @SuppressLint("DefaultLocale")
-            String postfix = String.format("%4d", i);
-            DocumentReference reference = db
-                .collection("transaksi").document(noTransaksi).collection("detail").document("DTL" + postfix);
-            batch.set(reference,
-                new DetailTransaksiModel(list.get(i).getNamaBarang(),list.get(i).getHarga(), list.get(i).getJumlah()));
+            String idDetail = UtilsSingleton.getRandom("DTL", 3);
+            DocumentReference reference = db.collection("transaksi").document(noTransaksi).collection("detail").document(idDetail);
+            batch.set(reference, new DetailTransaksiModel(list.get(i).getNamaBarang(),list.get(i).getHarga(), list.get(i).getJumlah()));
         }
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

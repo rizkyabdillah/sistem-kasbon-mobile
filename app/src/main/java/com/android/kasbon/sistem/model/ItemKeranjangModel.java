@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class ItemKeranjangModel extends BaseObservable implements Serializable {
 
-    private String namaBarang = null, harga = null, jumlah = null;
+    private String namaBarang = "", harga = "", jumlah = "";
 
     public ItemKeranjangModel() {
     }

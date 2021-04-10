@@ -101,7 +101,7 @@ public class HomePembeliFragment extends Fragment {
                     if(!doc.getString("id_user").equals("TEMP")) {
                         try {
                             OperationTransaksiModel model = new OperationTransaksiModel();
-                            model.setJumlah(doc.getDouble("jumlah"));
+                            model.setJumlah(doc.getDouble("total"));
                             model.setStatusBayar(doc.getBoolean("status_bayar"));
                             model.setStatusJual(doc.getBoolean("status_jual"));
                             model.setTanggal(doc.getString("tanggal"));

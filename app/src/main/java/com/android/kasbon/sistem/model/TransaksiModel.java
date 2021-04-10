@@ -9,25 +9,33 @@ public class TransaksiModel {
 
     @SuppressLint("SimpleDateFormat")
     private String id_user = "",  tanggal = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-    private double jumlah = 0.0;
+    private int jumlah = 0, total = 0;
     private boolean status_jual = false, status_bayar = false;
 
     public TransaksiModel() {
     }
 
-    public TransaksiModel(String id_user, double jumlah, boolean status_jual, boolean status_bayar) {
+    public TransaksiModel(String id_user, int jumlah, boolean status_jual, boolean status_bayar) {
         this.id_user = id_user;
         this.jumlah = jumlah;
         this.status_jual = status_jual;
         this.status_bayar = status_bayar;
     }
 
-    public TransaksiModel(String id_user, String tanggal, double jumlah, boolean status_jual, boolean status_bayar) {
+    public TransaksiModel(String id_user, String tanggal, int jumlah, boolean status_jual, boolean status_bayar) {
         this.id_user = id_user;
         this.tanggal = tanggal;
         this.jumlah = jumlah;
         this.status_jual = status_jual;
         this.status_bayar = status_bayar;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public String getId_user() {
@@ -46,11 +54,11 @@ public class TransaksiModel {
         this.tanggal = tanggal;
     }
 
-    public double getJumlah() {
+    public int getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(double jumlah) {
+    public void setJumlah(int jumlah) {
         this.jumlah = jumlah;
     }
 

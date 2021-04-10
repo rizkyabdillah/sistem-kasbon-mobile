@@ -84,7 +84,7 @@ public class HomePenjualFragment extends Fragment {
                                 try {
                                     OperationTransaksiModel model = new OperationTransaksiModel();
                                     model.setNama(name.get(doc.getString("id_user")).toString());
-                                    model.setJumlah(doc.getDouble("jumlah"));
+                                    model.setJumlah(doc.getDouble("total"));
                                     model.setStatusBayar(doc.getBoolean("status_bayar"));
                                     model.setStatusJual(doc.getBoolean("status_jual"));
                                     model.setTanggal(doc.getString("tanggal"));
