@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ActivityResultSuksesBinding;

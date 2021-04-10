@@ -24,4 +24,8 @@ public class OperationDashboardModel {
     public String getLimitKredit() {
         return String.format("%3s%,.0f","Rp ", (double) jaminanModel.getLimit_kredit());
     }
+
+    public double getLimit() {
+        return jaminanModel.getLimit_kredit();
+    }
 }

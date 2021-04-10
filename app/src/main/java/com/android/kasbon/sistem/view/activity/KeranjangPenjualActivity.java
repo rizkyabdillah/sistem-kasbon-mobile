@@ -23,6 +23,7 @@ import com.android.kasbon.sistem.model.OperationKeranjangModel;
 import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
+import com.android.kasbon.sistem.utilitas.AlertQRCode;
 import com.android.kasbon.sistem.utilitas.UtilsSingleton;
 import com.android.kasbon.sistem.viewmodel.InsertViewModel;
 import com.google.android.gms.tasks.Task;
@@ -94,6 +95,50 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
                                             progress.dismissDialog();
                                             finish();
                                             startActivity(new Intent(THIS, ResultSuksesActivity.class));
+                                        } else {
+                                            AlertInfo info = new AlertInfo(THIS, task.getException().getMessage(), true);
+                                            info.showDialog();
+                                        }
+                                    }
+                                });
+                            } else {
+                                AlertInfo info = new AlertInfo(THIS, task.getException().getMessage(), true);
+                                info.showDialog();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(THIS, "Keranjang anda masih kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // ================
+
+        binding.constraintLayoutKasbon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listKeranjang.size() > 0) {
+                    AlertProgress progress = new AlertProgress(THIS, "Menyimpan Data");
+                    progress.showDialog();
+
+                    final TransaksiModel model = new TransaksiModel();
+                    model.setStatus_jual(false);
+                    model.setStatus_bayar(false);
+                    model.setJumlah(operationKeranjangModel.getJumlah());
+                    model.setTotal(operationKeranjangModel.getTotal());
+                    model.setId_user("TEMP");
+                    insertViewModel.insertTransaksi(model, IDTRANSAKSI).observe(OWNER, new Observer<Task<Void>>() {
+                        @Override
+                        public void onChanged(Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                insertViewModel.insertDetailBatch(listKeranjang, IDTRANSAKSI).observe(OWNER, new Observer<Task<Void>>() {
+                                    @Override
+                                    public void onChanged(Task<Void> task) {
+                                        if(task.isSuccessful()) {
+                                            progress.dismissDialog();
+                                            AlertQRCode alertQRCode = new AlertQRCode(THIS,IDTRANSAKSI + "/" + operationKeranjangModel.getTotal());
+                                            alertQRCode.showDialog();
                                         } else {
                                             AlertInfo info = new AlertInfo(THIS, task.getException().getMessage(), true);
                                             info.showDialog();

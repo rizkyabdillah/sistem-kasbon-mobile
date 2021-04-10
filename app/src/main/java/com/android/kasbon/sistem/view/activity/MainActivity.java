@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.kasbon.sistem.R;
@@ -17,6 +18,7 @@ import com.android.kasbon.sistem.model.AuthModel;
 import com.android.kasbon.sistem.model.ItemKeranjangModel;
 import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
+import com.android.kasbon.sistem.utilitas.AlertQRCode;
 import com.android.kasbon.sistem.utilitas.UtilsSingleton;
 import com.android.kasbon.sistem.view.fragment.HomePembeliFragment;
 import com.android.kasbon.sistem.view.fragment.HomePenjualFragment;
@@ -41,17 +43,10 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    WriteBatch batch = db.batch();
-
-    private InsertViewModel insertViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -63,6 +58,8 @@ public class MainActivity extends AppCompatActivity{
                 loadFragment(new HomePembeliFragment());
             }
         }
+
+//        new AlertQRCode(this, "000000000").showDialog();
 
     }
 

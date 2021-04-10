@@ -26,6 +26,7 @@ import com.android.kasbon.sistem.model.OperationTransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.view.activity.LoginActivity;
 import com.android.kasbon.sistem.view.activity.ProfilPembeliActivity;
+import com.android.kasbon.sistem.view.activity.ScanQRActivity;
 import com.android.kasbon.sistem.view.activity.TransaksiAllActivity;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,6 +66,21 @@ public class HomePembeliFragment extends Fragment {
                 Toast.makeText(v.getContext(), "Berhasil keluar", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 getActivity().finish();
+            }
+        });
+
+        // ================
+
+        binding.floatingActionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(binding.getDashboard().getLimit() < 1) {
+                    Toast.makeText(v.getContext(), "Limit kredit anda kosong, anda tidak bisa melakukan transaksi", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(v.getContext(), ScanQRActivity.class);
+                    intent.putExtra("LIMIT_KREDIT", binding.getDashboard().getLimit());
+                    startActivity(intent);
+                }
             }
         });
 

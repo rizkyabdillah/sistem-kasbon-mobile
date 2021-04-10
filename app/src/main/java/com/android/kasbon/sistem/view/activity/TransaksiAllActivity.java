@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.adapter.TransaksiPembeliAdapter;

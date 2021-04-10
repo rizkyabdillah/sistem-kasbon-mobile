@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemKasbon">
-        <activity android:name=".view.activity.ScanQRActivity"></activity>
+        <activity android:name=".view.activity.ScanQRActivity"/>
         <activity android:name=".view.activity.ResultSuksesActivity" />
         <activity android:name=".view.activity.KasbonPenjualActivity" />
         <activity android:name=".view.activity.TransaksiAllActivity" />
