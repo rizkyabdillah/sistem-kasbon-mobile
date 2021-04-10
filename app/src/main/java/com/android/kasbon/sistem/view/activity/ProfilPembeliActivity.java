@@ -54,7 +54,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
     private ConstantModel constant;
     private final LifecycleOwner OWNER = this;
     private final Activity THIS = ProfilPembeliActivity.this;
-    private String imageUri = null, passChange = null;
+    private String imageUri = "", passChange = "";
     private double limitYangDidapat = 0.0;
 
     @Override
@@ -65,15 +65,6 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         readViewModel = ViewModelProviders.of(this).get(ReadViewModel.class);
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
         insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
-
-
-
-
-
-
-
-
-
 
         // Set alert dialog progress
         AlertProgress alertProgress = new AlertProgress(this, "Sedang mengambil data");
