@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.kasbon.sistem">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,16 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SistemKasbon">
-        <activity android:name=".view.activity.KasbonPenjualActivity"/>
+        <activity android:name=".view.activity.ResultSuksesActivity"></activity>
+        <activity android:name=".view.activity.KasbonPenjualActivity" />
         <activity android:name=".view.activity.TransaksiAllActivity" />
         <activity android:name=".view.activity.KeranjangPenjualActivity" />
-        <activity android:name=".view.activity.ResultActivity"/>
+        <activity android:name=".view.activity.ResultGagalActivity" />
         <activity android:name=".view.activity.ProfilPembeliActivity" />
-        <activity android:name=".view.activity.LoginActivity"/>
-        <activity android:name=".view.activity.PendaftaranActivity"/>
-        <activity android:name=".view.activity.MainActivity" >
+        <activity android:name=".view.activity.LoginActivity" />
+        <activity android:name=".view.activity.PendaftaranActivity" />
+        <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

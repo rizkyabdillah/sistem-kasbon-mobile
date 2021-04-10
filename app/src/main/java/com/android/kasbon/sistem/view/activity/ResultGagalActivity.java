@@ -6,12 +6,12 @@ import android.os.Bundle;
 
 import com.android.kasbon.sistem.R;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultGagalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_result_gagal);
 
 
 
