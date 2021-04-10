@@ -12,7 +12,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReadRepository {
 
@@ -64,6 +68,20 @@ public class ReadRepository {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 liveData.postValue(value.toObject(ConstantModel.class));
+            }
+        }); return liveData;
+    }
+
+    public MutableLiveData<Map<String, Object>> readAllDataNameUser() {
+        MutableLiveData<Map<String, Object>> liveData = new MutableLiveData<>();
+        db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                Map<String, Object> name = new HashMap<>();
+                for(QueryDocumentSnapshot query : value) {
+                    name.put(query.getId(), query.get("nama"));
+                }
+                liveData.postValue(name);
             }
         }); return liveData;
     }

@@ -5,16 +5,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.kasbon.sistem.R;
-import com.android.kasbon.sistem.databinding.ItemTransaksiPembeliBinding;
 import com.android.kasbon.sistem.databinding.ItemTransaksiPenjualBinding;
-import com.android.kasbon.sistem.model.TransaksiModel;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.android.kasbon.sistem.model.OperationTransaksiModel;
 
 import java.util.List;
 
@@ -22,10 +18,12 @@ import java.util.List;
 public class TransaksiPenjualAdapter extends RecyclerView.Adapter<TransaksiPenjualAdapter.ViewHolder> {
 
     private ItemTransaksiPenjualBinding bindingPenjual;
-    private List<DocumentSnapshot> list;
+    private List<OperationTransaksiModel> list;
+    private Boolean isLimit = false;
 
-    public TransaksiPenjualAdapter(QuerySnapshot documentSnapshots) {
-        this.list = documentSnapshots.getDocuments();
+    public TransaksiPenjualAdapter(List<OperationTransaksiModel> list, Boolean isLimit) {
+        this.list = list;
+        this.isLimit = isLimit;
     }
 
     @NonNull
@@ -38,19 +36,12 @@ public class TransaksiPenjualAdapter extends RecyclerView.Adapter<TransaksiPenju
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull TransaksiPenjualAdapter.ViewHolder holder, int position) {
-        TransaksiModel model = list.get(position).toObject(TransaksiModel.class);
-        int green = ContextCompat.getColor(bindingPenjual.getRoot().getContext(), R.color.app_green);
-        int red = ContextCompat.getColor(bindingPenjual.getRoot().getContext(), R.color.app_red);
-        bindingPenjual.setTransaksi(model);
-        bindingPenjual.textNominal.setTextColor(model.getAksi().equals("Bayar") ? green : red);
-
-
-
+        bindingPenjual.setOperation(list.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return isLimit ? (Math.min(list.size(), 5)) : list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -11,13 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.kasbon.sistem.model.ItemKeranjangModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.InsertRepository;
 import com.google.android.gms.tasks.Task;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class InsertViewModel extends AndroidViewModel {
 
@@ -36,6 +39,14 @@ public class InsertViewModel extends AndroidViewModel {
 
     public MutableLiveData<Task<Uri>> insertFoto(Uri uri){
         return repository.insertFoto(getByteBitmap(uri));
+    }
+
+    public MutableLiveData<Task<Void>> insertDetailBatch(List<ItemKeranjangModel> list, String noTransaksi) {
+        return repository.insertDetailBatch(list, noTransaksi);
+    }
+
+    public MutableLiveData<Task<Void>> insertTransaksi(TransaksiModel model, String idTransaksi) {
+        return repository.insertTransaksi(model, idTransaksi);
     }
 
 

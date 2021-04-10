@@ -40,6 +40,10 @@ public class UpdateViewModel extends AndroidViewModel {
         return repository.updateUriFoto(uri, idUser);
     }
 
+    public MutableLiveData<Task<Void>> updateHargaEmas(String hargaEmas) {
+        return repository.updateHargaEmas(hargaEmas);
+    }
+
 
 
 

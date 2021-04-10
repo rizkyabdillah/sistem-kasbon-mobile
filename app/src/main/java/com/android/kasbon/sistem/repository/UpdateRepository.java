@@ -91,4 +91,15 @@ public class UpdateRepository {
         }); return liveData;
     }
 
+    public MutableLiveData<Task<Void>> updateHargaEmas(String hargaEmas) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        db.collection("constant").document("HARGA_EMAS").update("harga", hargaEmas)
+        .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                liveData.postValue(task);
+            }
+        }); return liveData;
+    }
+
 }

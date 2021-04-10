@@ -227,7 +227,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                 if(constant != null) {
                     final double beratEmas = Double.parseDouble(binding.textBeratEmas.getText().toString());
                     final double persen = (checkedId == R.id.rdbYes) ? 0.75 : 0.5;
-                    limitYangDidapat = constant.getHarga() * beratEmas * persen;
+                    limitYangDidapat = Double.parseDouble(constant.getHarga()) * beratEmas * persen;
                     binding.textViewLimitYangDidapat.setText(formatCurrency(limitYangDidapat));
                 }
             }
@@ -250,7 +250,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
     private double getPendapatan(ConstantModel constant, double beratEmas) {
         final double persen = binding.rdbYes.isChecked() ? 0.75 : 0.5;
-        return constant.getHarga() * beratEmas * persen;
+        return Double.parseDouble(constant.getHarga()) * beratEmas * persen;
     }
 
     @SuppressLint("DefaultLocale")

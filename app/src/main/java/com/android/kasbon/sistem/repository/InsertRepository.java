@@ -1,12 +1,16 @@
 package com.android.kasbon.sistem.repository;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.kasbon.sistem.model.DetailTransaksiModel;
+import com.android.kasbon.sistem.model.ItemKeranjangModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +22,8 @@ import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.List;
 
 public class InsertRepository {
 
@@ -63,9 +69,34 @@ public class InsertRepository {
         }); return liveData;
     }
 
+    public MutableLiveData<Task<Void>> insertDetailBatch(List<ItemKeranjangModel> list, String noTransaksi) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        for(int i = 0; i < list.size(); i++) {
+            @SuppressLint("DefaultLocale")
+            String postfix = String.format("%4d", i);
+            DocumentReference reference = db
+                .collection("transaksi").document(noTransaksi).collection("detail").document("DTL" + postfix);
+            batch.set(reference,
+                new DetailTransaksiModel(list.get(i).getNamaBarang(),list.get(i).getHarga(), list.get(i).getJumlah()));
+        }
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                liveData.postValue(task);
+            }
+        }); return liveData;
+    }
 
-
-
+    public MutableLiveData<Task<Void>> insertTransaksi(TransaksiModel model, String idTransaksi) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        db.collection("transaksi").document(idTransaksi).set(model).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                liveData.postValue(task);
+            }
+        });
+        return liveData;
+    }
 
 
 

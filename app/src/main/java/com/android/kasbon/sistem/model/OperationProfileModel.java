@@ -21,7 +21,7 @@ public class OperationProfileModel {
 
     @SuppressLint("DefaultLocale")
     public String getHargaEmas() {
-        return "Rp. " +  String.format("%,.0f",  (double) constantModel.getHarga());
+        return "Rp. " +  String.format("%,.0f",  Double.parseDouble(constantModel.getHarga()));
     }
 
     public JaminanModel getJaminanModel() {

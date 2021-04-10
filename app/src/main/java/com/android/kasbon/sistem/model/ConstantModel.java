@@ -7,17 +7,17 @@ import com.android.kasbon.sistem.BR;
 
 public class ConstantModel extends BaseObservable {
 
-    private int harga = 0;
+    private String harga = "";
 
     public ConstantModel() {
     }
 
     @Bindable
-    public int getHarga() {
+    public String getHarga() {
         return harga;
     }
 
-    public void setHarga(int harga) {
+    public void setHarga(String harga) {
         this.harga = harga;
         notifyPropertyChanged(BR.harga);
     }

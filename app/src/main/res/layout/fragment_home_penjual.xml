@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="item"
-            type="com.android.kasbon.sistem.model.ItemKeranjangModel" />
+            name="constant"
+            type="com.android.kasbon.sistem.model.ConstantModel" />
     </data>
 
     <FrameLayout
@@ -129,7 +129,7 @@
                 android:fontFamily="@font/roboto_light"
                 android:hint="Rp. 925.000"
                 android:inputType="textPersonName"
-                android:text="@={item.namaBarang}"
+                android:text="@={constant.harga}"
                 android:textColor="@color/app_text_color_primary"
                 android:textColorHint="@color/app_text_color_primary"
                 android:textDirection="inherit"

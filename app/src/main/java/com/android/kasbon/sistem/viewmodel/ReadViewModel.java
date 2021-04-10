@@ -12,6 +12,8 @@ import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.ReadRepository;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Map;
+
 public class ReadViewModel extends AndroidViewModel {
 
     private final ReadRepository repository;
@@ -39,6 +41,10 @@ public class ReadViewModel extends AndroidViewModel {
 
     public MutableLiveData<ConstantModel> readDataHargaEmas() {
         return repository.readDataHargaEmas();
+    }
+
+    public MutableLiveData<Map<String, Object>> readAllDataNameUser() {
+        return repository.readAllDataNameUser();
     }
 
 
