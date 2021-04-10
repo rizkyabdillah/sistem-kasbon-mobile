@@ -26,7 +26,9 @@ import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.utilitas.AlertQRCode;
 import com.android.kasbon.sistem.utilitas.UtilsSingleton;
 import com.android.kasbon.sistem.viewmodel.InsertViewModel;
+import com.android.kasbon.sistem.viewmodel.ReadViewModel;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ import java.util.List;
 public class KeranjangPenjualActivity extends AppCompatActivity implements KeranjangAdapter.onSelectedData{
 
     private InsertViewModel insertViewModel;
+    private ReadViewModel readViewModel;
 
     private OperationKeranjangModel operationKeranjangModel;
     private ActivityKeranjangPenjualBinding binding;
@@ -41,6 +44,8 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
     private final LifecycleOwner OWNER = this;
     private List<ItemKeranjangModel> listKeranjang;
     private final Activity THIS = KeranjangPenjualActivity.this;
+    private boolean isKasbon = false;
+    private AlertQRCode alertQRCode;
 
     private final String IDTRANSAKSI = UtilsSingleton.getRandom("TR", 6);
 
@@ -48,7 +53,9 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_keranjang_penjual);
+
         insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
+        readViewModel = ViewModelProviders.of(this).get(ReadViewModel.class);
 
         listKeranjang = new ArrayList<>();
 
@@ -68,6 +75,9 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
                 finish();
             }
         });
+
+        // ================
+
 
         // ================
 
@@ -93,8 +103,8 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
                                     public void onChanged(Task<Void> task) {
                                         if(task.isSuccessful()) {
                                             progress.dismissDialog();
-                                            finish();
                                             startActivity(new Intent(THIS, ResultSuksesActivity.class));
+                                            finish();
                                         } else {
                                             AlertInfo info = new AlertInfo(THIS, task.getException().getMessage(), true);
                                             info.showDialog();
@@ -137,8 +147,18 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
                                     public void onChanged(Task<Void> task) {
                                         if(task.isSuccessful()) {
                                             progress.dismissDialog();
-                                            AlertQRCode alertQRCode = new AlertQRCode(THIS,IDTRANSAKSI + "/" + operationKeranjangModel.getTotal());
+                                            alertQRCode = new AlertQRCode(THIS,IDTRANSAKSI + "/" + operationKeranjangModel.getTotal());
                                             alertQRCode.showDialog();
+                                            readViewModel.readDataTransaksiReload(IDTRANSAKSI).observe(OWNER, new Observer<DocumentSnapshot>() {
+                                                @Override
+                                                public void onChanged(DocumentSnapshot documentSnapshot) {
+                                                    if(!documentSnapshot.getString("id_user").equals("TEMP")) {
+                                                        alertQRCode.dismissDialog();
+                                                        startActivity(new Intent(THIS, ResultSuksesActivity.class));
+                                                        finish();
+                                                    }
+                                                }
+                                            });
                                         } else {
                                             AlertInfo info = new AlertInfo(THIS, task.getException().getMessage(), true);
                                             info.showDialog();
@@ -181,6 +201,14 @@ public class KeranjangPenjualActivity extends AppCompatActivity implements Keran
         // ================
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isKasbon) {
+
+        }
     }
 
     @Override

@@ -44,7 +44,9 @@ public class UpdateViewModel extends AndroidViewModel {
         return repository.updateHargaEmas(hargaEmas);
     }
 
-
+    public MutableLiveData<Task<Void>> updateBatchTransaksiQR(String idTransaksi, String idUser, int limitKredit) {
+        return repository.updateBatchTransaksiQR(idTransaksi, idUser, limitKredit);
+    }
 
 
 

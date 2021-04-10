@@ -10,6 +10,7 @@ import com.android.kasbon.sistem.model.ConstantModel;
 import com.android.kasbon.sistem.model.JaminanModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.ReadRepository;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
@@ -33,6 +34,10 @@ public class ReadViewModel extends AndroidViewModel {
 
     public MutableLiveData<QuerySnapshot> readDataTransaksiUser(String idUser) {
         return repository.readDataTransaksiUser(idUser);
+    }
+
+    public MutableLiveData<DocumentSnapshot> readDataTransaksiReload(String idTransaksi) {
+        return repository.readDataTransaksiReload(idTransaksi);
     }
 
     public MutableLiveData<QuerySnapshot> readDataTransaksiAll() {

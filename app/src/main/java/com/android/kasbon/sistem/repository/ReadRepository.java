@@ -52,6 +52,16 @@ public class ReadRepository {
         }); return liveData;
     }
 
+    public MutableLiveData<DocumentSnapshot> readDataTransaksiReload(String idTransaksi) {
+        MutableLiveData<DocumentSnapshot> liveData = new MutableLiveData<>();
+        db.collection("transaksi").document(idTransaksi).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                liveData.postValue(value);
+            }
+        }); return liveData;
+    }
+
     public MutableLiveData<QuerySnapshot> readDataTransaksiAll() {
         MutableLiveData<QuerySnapshot> liveData = new MutableLiveData<>();
         db.collection("transaksi").addSnapshotListener(new EventListener<QuerySnapshot>() {

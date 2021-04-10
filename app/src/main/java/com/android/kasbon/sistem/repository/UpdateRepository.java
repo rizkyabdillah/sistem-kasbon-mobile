@@ -102,4 +102,18 @@ public class UpdateRepository {
         }); return liveData;
     }
 
+    public MutableLiveData<Task<Void>> updateBatchTransaksiQR(String idTransaksi, String idUser, int limitKredit) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        DocumentReference transaksiReference = db.collection("transaksi").document(idTransaksi);
+        batch.update(transaksiReference, "id_user", idUser);
+
+        DocumentReference jaminanReference = db.collection("jaminan").document(idUser);
+        batch.update(jaminanReference, "limit_kredit", limitKredit);
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) { liveData.postValue(task);  }
+        }); return liveData;
+    }
+
 }

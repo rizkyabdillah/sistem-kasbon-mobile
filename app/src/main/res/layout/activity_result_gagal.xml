@@ -60,7 +60,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/textViewGagal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
