@@ -23,6 +23,7 @@ import com.android.kasbon.sistem.databinding.ActivityAllTransaksiBinding;
 import com.android.kasbon.sistem.model.JaminanModel;
 import com.android.kasbon.sistem.model.OperationTransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
+import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.viewmodel.InsertViewModel;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
@@ -137,21 +138,18 @@ public class TransaksiAllActivity extends AppCompatActivity implements Transaksi
             public void onClick(DialogInterface dialog, int which) {
                 AlertProgress progress = new AlertProgress(TransaksiAllActivity.this, "Sedang mengupdate data");
                 progress.showDialog();
-                readViewModel.readDataJaminan(list.get(position).getIdUser()).observe(OWNER, new Observer<JaminanModel>() {
+                updateViewModel.updateBatchSetLunas(
+                    list.get(position).getIdTransaksi(), list.get(position).getIdUser(),list.get(position).getJumlah()
+                ).observe(OWNER, new Observer<Task<Void>>() {
                     @Override
-                    public void onChanged(JaminanModel jaminanModel) {
-                        final int TOTAL = (int) (jaminanModel.getLimit_kredit() + list.get(position).getJumlah());
-                        updateViewModel.updateBatchSetLunas(
-                            list.get(position).getIdTransaksi(), list.get(position).getIdUser(), TOTAL
-                        ).observe(OWNER, new Observer<Task<Void>>() {
-                            @Override
-                            public void onChanged(Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    progress.dismissDialog();
-                                    dialog.dismiss();
-                                }
-                            }
-                        });
+                    public void onChanged(Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            progress.dismissDialog();
+                            dialog.dismiss();
+                        } else {
+                            AlertInfo info = new AlertInfo(TransaksiAllActivity.this, task.getException().getMessage());
+                            info.showDialog();
+                        }
                     }
                 });
             }

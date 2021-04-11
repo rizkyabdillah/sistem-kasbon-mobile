@@ -3,6 +3,7 @@ package com.android.kasbon.sistem.repository;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.AuthModel;
@@ -17,7 +18,10 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.Map;
@@ -116,18 +120,31 @@ public class UpdateRepository {
         }); return liveData;
     }
 
-    public MutableLiveData<Task<Void>> updateBatchSetLunas(String idTransaksi, String idUser, int limitKredit) {
+    public MutableLiveData<Task<Void>> updateBatchSetLunas(String idTransaksi, String idUser, double limitKredit) {
         MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
-        DocumentReference a = db.collection("transaksi").document(idTransaksi);
-        batch.update(a, "status_bayar", true);
-
-        DocumentReference b = db.collection("jaminan").document(idUser);
-        batch.update(b, "limit_kredit", limitKredit);
-
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
             @Override
-            public void onComplete(@NonNull Task<Void> task) { liveData.postValue(task);  }
-        }); return liveData;
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                DocumentReference refJaminan = db.collection("jaminan").document(idUser);
+                DocumentSnapshot doc = transaction.get(refJaminan);
+
+                final double LIMIT_KREDIT =  doc.getDouble("limit_kredit");
+                final double NEW_LIMIT_KREDIT = LIMIT_KREDIT + limitKredit;
+                transaction.update(refJaminan, "limit_kredit", NEW_LIMIT_KREDIT);
+
+                DocumentReference refTransaksi = db.collection("transaksi").document(idTransaksi);
+                transaction.update(refTransaksi, "status_bayar", true);
+
+                return null;
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                liveData.postValue(task);
+            }
+        });
+        return liveData;
     }
 
 }
