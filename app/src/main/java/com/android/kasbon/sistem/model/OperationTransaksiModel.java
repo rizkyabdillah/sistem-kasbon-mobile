@@ -6,7 +6,7 @@ import androidx.databinding.BaseObservable;
 
 public class OperationTransaksiModel extends BaseObservable  {
 
-    private String nama = "", tanggal = "";
+    private String idUser = "", idTransaksi = "", nama = "", tanggal = "";
     private Double jumlah = 0.0;
     private Boolean statusJual = false, statusBayar = false;
 
@@ -19,6 +19,22 @@ public class OperationTransaksiModel extends BaseObservable  {
         this.jumlah = jumlah;
         this.statusJual = statusJual;
         this.statusBayar = statusBayar;
+    }
+
+    public String getIdTransaksi() {
+        return idTransaksi;
+    }
+
+    public void setIdTransaksi(String idTransaksi) {
+        this.idTransaksi = idTransaksi;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public String getNama() {

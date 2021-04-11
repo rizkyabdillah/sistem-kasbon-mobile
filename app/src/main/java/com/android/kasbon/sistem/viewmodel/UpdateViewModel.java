@@ -48,8 +48,9 @@ public class UpdateViewModel extends AndroidViewModel {
         return repository.updateBatchTransaksiQR(idTransaksi, idUser, limitKredit);
     }
 
-
-
+    public MutableLiveData<Task<Void>> updateBatchSetLunas(String idTransaksi, String idUser, int limitKredit) {
+        return repository.updateBatchSetLunas(idTransaksi, idUser, limitKredit);
+    }
 
 
 }

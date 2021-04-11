@@ -49,8 +49,6 @@ public class InsertViewModel extends AndroidViewModel {
         return repository.insertTransaksi(model, idTransaksi);
     }
 
-
-
     private byte[] getByteBitmap(Uri uri) {
         Bitmap b = null;
         try{

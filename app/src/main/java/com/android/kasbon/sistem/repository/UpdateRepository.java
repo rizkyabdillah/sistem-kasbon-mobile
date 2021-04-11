@@ -116,4 +116,18 @@ public class UpdateRepository {
         }); return liveData;
     }
 
+    public MutableLiveData<Task<Void>> updateBatchSetLunas(String idTransaksi, String idUser, int limitKredit) {
+        MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
+        DocumentReference a = db.collection("transaksi").document(idTransaksi);
+        batch.update(a, "status_bayar", true);
+
+        DocumentReference b = db.collection("jaminan").document(idUser);
+        batch.update(b, "limit_kredit", limitKredit);
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) { liveData.postValue(task);  }
+        }); return liveData;
+    }
+
 }

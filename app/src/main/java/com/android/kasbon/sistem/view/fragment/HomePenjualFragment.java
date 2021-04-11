@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HomePenjualFragment extends Fragment {
+public class HomePenjualFragment extends Fragment implements TransaksiPenjualAdapter.onSelectedData{
 
     private ReadViewModel readViewModel;
     private UpdateViewModel updateViewModel;
@@ -95,7 +95,7 @@ public class HomePenjualFragment extends Fragment {
                             }
                         }
 
-                        adapter = new TransaksiPenjualAdapter(list, true);
+                        adapter = new TransaksiPenjualAdapter(list, true, HomePenjualFragment.this);
                         binding.recyclerViewTransaksiPenjual.setAdapter(adapter);
                     }
                 });
@@ -176,5 +176,10 @@ public class HomePenjualFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         binding = null;
+    }
+
+    @Override
+    public void onSelected(int position) {
+
     }
 }

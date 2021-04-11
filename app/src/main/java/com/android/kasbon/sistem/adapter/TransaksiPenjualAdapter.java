@@ -2,6 +2,7 @@ package com.android.kasbon.sistem.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -19,11 +20,22 @@ public class TransaksiPenjualAdapter extends RecyclerView.Adapter<TransaksiPenju
 
     private ItemTransaksiPenjualBinding bindingPenjual;
     private List<OperationTransaksiModel> list;
+    private TransaksiPenjualAdapter.onSelectedData onSelectedData;
     private Boolean isLimit = false;
+
+    public interface onSelectedData{
+        void onSelected(int position);
+    }
 
     public TransaksiPenjualAdapter(List<OperationTransaksiModel> list, Boolean isLimit) {
         this.list = list;
         this.isLimit = isLimit;
+    }
+
+    public TransaksiPenjualAdapter(List<OperationTransaksiModel> list, Boolean isLimit, TransaksiPenjualAdapter.onSelectedData onSelectedData) {
+        this.list = list;
+        this.isLimit = isLimit;
+        this.onSelectedData = onSelectedData;
     }
 
     @NonNull
@@ -33,10 +45,17 @@ public class TransaksiPenjualAdapter extends RecyclerView.Adapter<TransaksiPenju
         return new ViewHolder(bindingPenjual);
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull TransaksiPenjualAdapter.ViewHolder holder, int position) {
         bindingPenjual.setOperation(list.get(position));
+        bindingPenjual.constraintLayoutRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!list.get(position).isStatusBayar() && !list.get(position).isStatusJual()) {
+                    onSelectedData.onSelected(position);
+                }
+            }
+        });
     }
 
     @Override

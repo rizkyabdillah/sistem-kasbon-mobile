@@ -39,7 +39,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -67,7 +70,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
         insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
 
-        // Set alert dialog progress
+//         Set alert dialog progress
         AlertProgress alertProgress = new AlertProgress(this, "Sedang mengambil data");
         alertProgress.showDialog();
 
@@ -85,6 +88,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                         int checked = jaminanModel.getJenis_jaminan() ? R.id.rdbYes : R.id.rdbNo;
                         binding.rdbGroupJaminanDititipkan.check(checked);
                         binding.textBeratEmas.setText(jaminanModel.getBerat_emas());
+                        binding.textViewLimitYangDidapat.setText(formatCurrency(jaminanModel.getLimit_kredit()));
                         setPicasso(Uri.parse(jaminanModel.getFoto()));
                         imageUri = jaminanModel.getFoto();
                         readViewModel.readDataHargaEmas().observe(OWNER, new Observer<ConstantModel>() {
@@ -93,8 +97,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                                 alertProgress.dismissDialog();
                                 constant = constantModel;
 
-                                limitYangDidapat = getPendapatan(constant, Double.parseDouble(jaminanModel.getBerat_emas()));
-                                binding.textViewLimitYangDidapat.setText(formatCurrency(limitYangDidapat));
+//                                limitYangDidapat = getPendapatan(constant, Double.parseDouble(jaminanModel.getBerat_emas()));
 
                                 OperationProfileModel model = new OperationProfileModel(jaminanModel, constantModel);
                                 binding.setOperation(model);
@@ -188,8 +191,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final double beratEmas = Double.parseDouble(binding.textBeratEmas.getText().toString()) - 0.1;
                 if(beratEmas >= 0.1) {
-                    @SuppressLint("DefaultLocale")
-                    String values = String.format("%.1f", beratEmas);
+                    String values = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US)).format(beratEmas);
                     binding.textBeratEmas.setText(values);
                     limitYangDidapat = getPendapatan(constant,beratEmas);
                     binding.textViewLimitYangDidapat.setText(formatCurrency(limitYangDidapat));
@@ -202,9 +204,10 @@ public class ProfilPembeliActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final double beratEmas = Double.parseDouble(binding.textBeratEmas.getText().toString()) + 0.1;
+                Log.d("==============", "" + beratEmas);
                 if(beratEmas <= 2.0) {
-                    @SuppressLint("DefaultLocale")
-                    String values = String.format("%.1f", beratEmas);
+                    String values = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.US)).format(beratEmas);
+                    Log.d("==============", values);
                     binding.textBeratEmas.setText(values);
                     limitYangDidapat = getPendapatan(constant,beratEmas);
                     binding.textViewLimitYangDidapat.setText(formatCurrency(limitYangDidapat));

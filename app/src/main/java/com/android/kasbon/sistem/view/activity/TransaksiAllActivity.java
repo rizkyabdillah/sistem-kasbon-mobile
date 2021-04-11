@@ -1,5 +1,6 @@
 package com.android.kasbon.sistem.view.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +20,14 @@ import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.adapter.TransaksiPembeliAdapter;
 import com.android.kasbon.sistem.adapter.TransaksiPenjualAdapter;
 import com.android.kasbon.sistem.databinding.ActivityAllTransaksiBinding;
+import com.android.kasbon.sistem.model.JaminanModel;
 import com.android.kasbon.sistem.model.OperationTransaksiModel;
+import com.android.kasbon.sistem.model.UserModel;
+import com.android.kasbon.sistem.utilitas.AlertProgress;
+import com.android.kasbon.sistem.viewmodel.InsertViewModel;
 import com.android.kasbon.sistem.viewmodel.ReadViewModel;
+import com.android.kasbon.sistem.viewmodel.UpdateViewModel;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -29,12 +37,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TransaksiAllActivity extends AppCompatActivity {
+public class TransaksiAllActivity extends AppCompatActivity implements TransaksiPenjualAdapter.onSelectedData{
+
+    private ReadViewModel readViewModel;
+    private UpdateViewModel updateViewModel;
 
     private ActivityAllTransaksiBinding binding;
-    private ReadViewModel readViewModel;
     private FirebaseUser firebaseUser;
     private final LifecycleOwner OWNER = this;
+    private List<OperationTransaksiModel> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,9 @@ public class TransaksiAllActivity extends AppCompatActivity {
         final boolean isReadDataSeller = getIntent().getBooleanExtra("IS_READ_SELLER", true);
 
         readViewModel = ViewModelProviders.of(this).get(ReadViewModel.class);
+        updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
+
+        list = new ArrayList<>();
 
         binding.recyclerViewAllTransaksi.setHasFixedSize(true);
         binding.recyclerViewAllTransaksi.setLayoutManager(new LinearLayoutManager(this));
@@ -65,11 +79,13 @@ public class TransaksiAllActivity extends AppCompatActivity {
                 liveData.observe(OWNER, new Observer<QuerySnapshot>() {
                     @Override
                     public void onChanged(QuerySnapshot value) {
-                        List<OperationTransaksiModel> list = new ArrayList<>();
+                        list.clear();
                         for (QueryDocumentSnapshot doc : value) {
                             if(!doc.getString("id_user").equals("TEMP")) {
                                 try {
                                     OperationTransaksiModel model = new OperationTransaksiModel();
+                                    model.setIdTransaksi(doc.getId());
+                                    model.setIdUser(doc.getString("id_user"));
                                     model.setNama(name.get(doc.getString("id_user")).toString());
                                     model.setJumlah(doc.getDouble("total"));
                                     model.setStatusBayar(doc.getBoolean("status_bayar"));
@@ -84,7 +100,7 @@ public class TransaksiAllActivity extends AppCompatActivity {
 
                         binding.recyclerViewAllTransaksi.setAdapter(
                             isReadDataSeller ?
-                                new TransaksiPenjualAdapter(list, false)
+                                new TransaksiPenjualAdapter(list, false, TransaksiAllActivity.this)
                                     :
                                 new TransaksiPembeliAdapter(list, false)
                         );
@@ -103,5 +119,44 @@ public class TransaksiAllActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onSelected(int position) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Konfirmasi");
+        alert.setMessage("Apakah kasbon ini sudah lunas?");
+        alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AlertProgress progress = new AlertProgress(TransaksiAllActivity.this, "Sedang mengupdate data");
+                progress.showDialog();
+                readViewModel.readDataJaminan(list.get(position).getIdUser()).observe(OWNER, new Observer<JaminanModel>() {
+                    @Override
+                    public void onChanged(JaminanModel jaminanModel) {
+                        final int TOTAL = (int) (jaminanModel.getLimit_kredit() + list.get(position).getJumlah());
+                        updateViewModel.updateBatchSetLunas(
+                            list.get(position).getIdTransaksi(), list.get(position).getIdUser(), TOTAL
+                        ).observe(OWNER, new Observer<Task<Void>>() {
+                            @Override
+                            public void onChanged(Task<Void> task) {
+                                if(task.isSuccessful()) {
+                                    progress.dismissDialog();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        alert.create();
+        alert.show();
     }
 }
