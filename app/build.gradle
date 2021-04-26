@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.android.kasbon.sistem"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -55,10 +55,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:18.0.2'
 
 
-    //lifecycle
+    //Lifecycle
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+
     //noinspection LifecycleAnnotationProcessorWithJava8
     annotationProcessor 'android.arch.lifecycle:compiler:1.1.1'
+
+    // Android permission
+    implementation 'com.intentfilter:android-permissions:2.0.54'
+
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // Zxing for qrcode
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
 
 }

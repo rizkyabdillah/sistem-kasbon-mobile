@@ -4,9 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="operation"
+            type="com.android.kasbon.sistem.model.OperationProfileModel" />
+
         <variable
             name="user"
-            type="com.android.kasbon.sistem.model.User" />
+            type="com.android.kasbon.sistem.model.UserModel" />
+
+        <variable
+            name="auth"
+            type="com.android.kasbon.sistem.model.AuthModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,6 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -90,7 +101,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan nama"
                     android:inputType="textPersonName"
-                    android:text="@{user.nama}"
+                    android:text="@={user.nama}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -123,8 +134,8 @@
                     android:background="@color/app_background"
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan no telp"
-                    android:inputType="textPersonName"
-                    android:text="@{user.telepon}"
+                    android:inputType="number"
+                    android:text="@={user.telepon}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -171,7 +182,7 @@
                     android:fontFamily="@font/roboto_light"
                     android:hint="Masukkan email"
                     android:inputType="textEmailAddress"
-                    android:text="@{user.email}"
+                    android:text="@={auth.email}"
                     android:textColor="@color/app_text_color_primary"
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
@@ -221,6 +232,7 @@
                     android:textColorHint="@color/app_text_color_secondary"
                     android:textDirection="inherit"
                     android:textSize="18sp"
+                    android:text="@={auth.password}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -257,13 +269,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="*Kosongkan jika tidak ingin mengganti password"
+                    android:textColor="@color/app_text_color_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Alamat"
                     android:textColor="@color/app_text_color_primary"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view7" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout"
@@ -271,19 +297,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="32dp"
                     android:background="@color/app_background"
                     android:scrollbarThumbHorizontal="@color/app_background"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
                     app:helperTextTextColor="@color/app_background"
                     app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11"
+                    app:layout_constraintTop_toBottomOf="@id/textView16"
                     app:placeholderTextColor="@color/app_background"
-                    app:boxBackgroundMode="none"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
                     app:suffixTextColor="@color/app_background">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -296,7 +322,7 @@
                         android:inputType="textMultiLine"
                         android:maxLines="4"
                         android:minLines="2"
-                        android:text="@{user.alamat}"
+                        android:text="@={user.alamat}"
                         android:textColor="@color/white"
                         android:textColorHint="@color/app_text_color_secondary"
                         android:textSize="18sp" />
@@ -309,15 +335,242 @@
                     android:layout_height="0.5dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="8dp"
                     android:background="@color/app_text_color_grey"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Jaminan Emas"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="30sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+                <TextView
+                    android:id="@+id/textViewLimitYangDidapat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Rp. 0"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Limit yang Didapat"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearJaminanEmas" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Upload Foto"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewLimitYangDidapat" />
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Apakah Jaminan Dititipkan?"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Berat Emas (gram)"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+                <LinearLayout
+                    android:id="@+id/linearJaminanEmas"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21">
+
+                    <ImageView
+                        android:id="@+id/btnMinus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round_bg_white"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_minus" />
+
+                    <TextView
+                        android:id="@+id/textBeratEmas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="0.0"
+                        android:textColor="@color/app_text_color_primary"
+                        android:textSize="24sp" />
+
+
+                    <ImageView
+                        android:id="@+id/btnPlus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round_bg_white"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_plus" />
+                </LinearLayout>
+
+<!--                <EditText-->
+<!--                    android:id="@+id/constraintJaminanEmas"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginStart="32dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginEnd="32dp"-->
+<!--                    android:background="@color/app_background"-->
+<!--                    android:fontFamily="@font/roboto_light"-->
+<!--                    android:hint="1"-->
+<!--                    android:inputType="number"-->
+<!--                    android:text="@{operation.beratEmas}"-->
+<!--                    android:textColor="@color/app_text_color_primary"-->
+<!--                    android:textColorHint="@color/app_text_color_secondary"-->
+<!--                    android:textDirection="inherit"-->
+<!--                    android:textSize="18sp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView21" />-->
+
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@{operation.hargaEmas}"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Harga Emas Saat Ini (gram)"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="@color/app_text_color_secondary"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView26">
+
+                    <ImageView
+                        android:id="@+id/imageJaminan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/ic_image" />
+                </androidx.cardview.widget.CardView>
+
+                <RadioGroup
+                    android:id="@+id/rdbGroupJaminanDititipkan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:checkedButton="@id/rdbYes"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView27"
+                    android:focusable="true">
+
+                    <RadioButton
+                        android:id="@+id/rdbYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/app_red"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Ya"
+                        android:textColor="@color/app_text_color_primary" />
+
+                    <RadioButton
+                        android:id="@+id/rdbNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:buttonTint="@color/app_red"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Tidak"
+                        android:textColor="@color/app_text_color_primary" />
+
+                </RadioGroup>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
         <androidx.cardview.widget.CardView

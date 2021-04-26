@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="item"
-            type="com.android.kasbon.sistem.model.ItemKeranjangModel" />
+            name="constant"
+            type="com.android.kasbon.sistem.model.ConstantModel" />
     </data>
 
     <FrameLayout
@@ -19,6 +19,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/app_background">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewCart"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/app_red_dark"
+                android:clickable="true"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view9">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayoutSimpanHargaEmas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Simpan"
+                        android:textColor="@color/app_text_color_primary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
@@ -48,14 +83,14 @@
                 android:id="@+id/btnLihatSemua"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="LIHAT SEMUA"
                 android:textColor="@color/app_text_color_grey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardViewDaftar" />
+                app:layout_constraintTop_toBottomOf="@+id/cardViewCart" />
 
             <TextView
                 android:id="@+id/txtKeluar2"
@@ -64,7 +99,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Penjualan"
+                android:text="Harga Emas Saat Ini (gram)"
                 android:textColor="@color/app_text_color_primary"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,30 +110,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Transaksi"
                 android:textColor="@color/app_text_color_primary"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardViewDaftar" />
+                app:layout_constraintTop_toBottomOf="@+id/cardViewCart" />
 
             <EditText
                 android:id="@+id/editTextNamaBarang"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 android:background="@color/app_background"
                 android:fontFamily="@font/roboto_light"
-                android:hint="Nama Barang"
-                android:text="@={item.namaBarang}"
+                android:hint="Rp. 925.000"
                 android:inputType="textPersonName"
+                android:text="@={constant.harga}"
                 android:textColor="@color/app_text_color_primary"
                 android:textColorHint="@color/app_text_color_primary"
                 android:textDirection="inherit"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -116,104 +151,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNamaBarang" />
-
-            <EditText
-                android:id="@+id/editTextHarga"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="38dp"
-                android:layout_marginEnd="32dp"
-                android:background="@color/app_background"
-                android:fontFamily="@font/roboto_light"
-                android:hint="Harga"
-                android:text="@={item.harga}"
-                android:inputType="number"
-                android:textColor="@color/app_text_color_primary"
-                android:textColorHint="@color/app_text_color_primary"
-                android:textDirection="inherit"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view9" />
-
-            <View
-                android:id="@+id/view10"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                android:background="@color/app_text_color_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextHarga" />
-
-            <EditText
-                android:id="@+id/editTextJumlah"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="38dp"
-                android:layout_marginEnd="32dp"
-                android:background="@color/app_background"
-                android:fontFamily="@font/roboto_light"
-                android:hint="Jumlah"
-                android:text="@={item.jumlah}"
-                android:inputType="number"
-                android:textColor="@color/app_text_color_primary"
-                android:textColorHint="@color/app_text_color_primary"
-                android:textDirection="inherit"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view10" />
-
-            <View
-                android:id="@+id/view11"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                android:background="@color/app_text_color_grey"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextJumlah" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewDaftar"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:backgroundTint="@color/app_red_dark"
-                android:clickable="true"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view11">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayoutAddCart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true">
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_add_trolli"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewTransaksiPenjual"

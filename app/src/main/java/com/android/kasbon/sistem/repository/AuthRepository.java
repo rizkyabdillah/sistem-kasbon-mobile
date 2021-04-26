@@ -3,6 +3,7 @@ package com.android.kasbon.sistem.repository;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.kasbon.sistem.model.AuthModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -13,17 +14,17 @@ public class AuthRepository {
 
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    public MutableLiveData<Task<AuthResult>> firebaseSign(String email, String password) {
+    public MutableLiveData<Task<AuthResult>> firebaseSign(AuthModel auth) {
         final MutableLiveData<Task<AuthResult>> liveData = new MutableLiveData<>();
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.signInWithEmailAndPassword(auth.getEmail(), auth.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) { liveData.postValue(task); }
         }); return liveData;
     }
 
-    public MutableLiveData<Task<AuthResult>> firebaseCreateNewUser(String email, String password) {
+    public MutableLiveData<Task<AuthResult>> firebaseCreateNewUser(AuthModel auth) {
         MutableLiveData<Task<AuthResult>> liveData = new MutableLiveData<>();
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.createUserWithEmailAndPassword(auth.getEmail(), auth.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) { liveData.postValue(task); }
         }); return liveData;

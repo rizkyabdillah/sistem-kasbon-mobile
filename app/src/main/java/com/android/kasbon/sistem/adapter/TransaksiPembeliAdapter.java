@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ItemTransaksiPembeliBinding;
 import com.android.kasbon.sistem.databinding.ItemTransaksiPenjualBinding;
+import com.android.kasbon.sistem.model.OperationTransaksiModel;
 import com.android.kasbon.sistem.model.TransaksiModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -22,10 +23,12 @@ import java.util.List;
 public class TransaksiPembeliAdapter extends RecyclerView.Adapter<TransaksiPembeliAdapter.ViewHolder> {
 
     private ItemTransaksiPembeliBinding bindingPembeli;
-    private List<DocumentSnapshot> list;
+    private List<OperationTransaksiModel> list;
+    private Boolean isLimit = false;
 
-    public TransaksiPembeliAdapter(QuerySnapshot documentSnapshots) {
-        this.list = documentSnapshots.getDocuments();
+    public TransaksiPembeliAdapter(List<OperationTransaksiModel> list, Boolean isLimit) {
+        this.list = list;
+        this.isLimit = isLimit;
     }
 
     @NonNull
@@ -38,19 +41,12 @@ public class TransaksiPembeliAdapter extends RecyclerView.Adapter<TransaksiPembe
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull TransaksiPembeliAdapter.ViewHolder holder, int position) {
-        TransaksiModel model = list.get(position).toObject(TransaksiModel.class);
-        int green = ContextCompat.getColor(bindingPembeli.getRoot().getContext(), R.color.app_green);
-        int red = ContextCompat.getColor(bindingPembeli.getRoot().getContext(), R.color.app_red);
-        bindingPembeli.setTransaksi(model);
-        bindingPembeli.textNominal.setTextColor(model.getAksi().equals("Bayar") ? green : red);
-
-
-
+        bindingPembeli.setOperation(list.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return isLimit ? (Math.min(list.size(), 5)) : list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
