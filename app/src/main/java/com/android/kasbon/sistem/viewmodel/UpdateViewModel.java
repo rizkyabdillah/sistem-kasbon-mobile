@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.AuthModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.UpdateRepository;
 import com.google.android.gms.tasks.Task;
@@ -32,8 +33,8 @@ public class UpdateViewModel extends AndroidViewModel {
         return repository.updatePasswordUser(authModel, password);
     }
 
-    public MutableLiveData<Task<Void>> updateBatchUserJaminan(UserModel user, JaminanModel jaminan, String idUser) {
-        return repository.updateBatchUserJaminan(user, jaminan, idUser);
+    public MutableLiveData<Task<Void>> updateBatchUserJaminan(UserModel user, JaminanModel jaminan, KontakDaruratModel kontakDaruratModel, String idUser) {
+        return repository.updateBatchUserJaminan(user, jaminan, kontakDaruratModel, idUser);
     }
 
     public MutableLiveData<Task<Void>> updateUriFoto(String uri, String idUser) {

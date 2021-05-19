@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class UtilsSingleton {
 
-    private static final String NUMBER = "0123456789";
+    private static final String NUMBER = "123456789";
     private static final Random random = new Random();
 
     public static String getRandom(String prefix, int length) {

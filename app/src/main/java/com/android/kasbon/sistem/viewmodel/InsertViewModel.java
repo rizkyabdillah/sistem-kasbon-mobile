@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.ItemKeranjangModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.InsertRepository;
@@ -33,8 +34,8 @@ public class InsertViewModel extends AndroidViewModel {
         this.context = application.getApplicationContext();
     }
 
-    public MutableLiveData<Task<Void>> insertBatchUserJaminan(UserModel userModel, JaminanModel jaminan, String idUser) {
-        return repository.insertBatchUserJaminan(userModel, jaminan, idUser);
+    public MutableLiveData<Task<Void>> insertBatchUserJaminan(UserModel userModel, JaminanModel jaminanModel, KontakDaruratModel kontakModel, String idUser) {
+        return repository.insertBatchUserJaminan(userModel, jaminanModel, kontakModel, idUser);
     }
 
     public MutableLiveData<Task<Uri>> insertFoto(Uri uri){

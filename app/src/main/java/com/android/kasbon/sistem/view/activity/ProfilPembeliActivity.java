@@ -25,6 +25,7 @@ import com.android.kasbon.sistem.databinding.ActivityProfilPembeliBinding;
 import com.android.kasbon.sistem.model.AuthModel;
 import com.android.kasbon.sistem.model.ConstantModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.OperationProfileModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
@@ -61,6 +62,8 @@ public class ProfilPembeliActivity extends AppCompatActivity {
     private String imageUri = "", passChange = "";
     private double limitYangDidapat = 0.0;
 
+    private static final String TAG = "ProfilPembeliActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +73,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
         insertViewModel = ViewModelProviders.of(this).get(InsertViewModel.class);
 
-//         Set alert dialog progress
+//      Set alert dialog progress
         AlertProgress alertProgress = new AlertProgress(this, "Sedang mengambil data");
         alertProgress.showDialog();
 
@@ -85,8 +88,6 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onChanged(JaminanModel jaminanModel) {
-                        int checked = jaminanModel.getJenis_jaminan() ? R.id.rdbYes : R.id.rdbNo;
-                        binding.rdbGroupJaminanDititipkan.check(checked);
                         binding.textBeratEmas.setText(jaminanModel.getBerat_emas());
                         binding.textViewLimitYangDidapat.setText(formatCurrency(jaminanModel.getLimit_kredit()));
                         setPicasso(Uri.parse(jaminanModel.getFoto()));
@@ -94,13 +95,16 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                         readViewModel.readDataHargaEmas().observe(OWNER, new Observer<ConstantModel>() {
                             @Override
                             public void onChanged(ConstantModel constantModel) {
-                                alertProgress.dismissDialog();
                                 constant = constantModel;
-
-//                                limitYangDidapat = getPendapatan(constant, Double.parseDouble(jaminanModel.getBerat_emas()));
-
                                 OperationProfileModel model = new OperationProfileModel(jaminanModel, constantModel);
                                 binding.setOperation(model);
+                                readViewModel.readDataKontakDarurat(firebaseUser.getUid()).observe(OWNER, new Observer<KontakDaruratModel>() {
+                                    @Override
+                                    public void onChanged(KontakDaruratModel kontakDaruratModel) {
+                                        alertProgress.dismissDialog();
+                                        binding.setKontak(kontakDaruratModel);
+                                    }
+                                });
                             }
                         });
                     }
@@ -132,7 +136,10 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                         userModel.setPassword(binding.getAuth().getPassword());
                     }
 
-                    updateViewModel.updateBatchUserJaminan(userModel, jaminanModel,firebaseUser.getUid()).observe(OWNER, new Observer<Task<Void>>() {
+                    KontakDaruratModel kontakDaruratModel = binding.getKontak();
+                    kontakDaruratModel.setStatus(binding.rdbGroupStatus.getCheckedRadioButtonId());
+
+                    updateViewModel.updateBatchUserJaminan(userModel, jaminanModel, kontakDaruratModel, firebaseUser.getUid()).observe(OWNER, new Observer<Task<Void>>() {
                         @Override
                         public void onChanged(Task<Void> task) {
                             if(task.isSuccessful()) {
@@ -215,19 +222,6 @@ public class ProfilPembeliActivity extends AppCompatActivity {
             }
         });
 
-        // If radio group changed
-        binding.rdbGroupJaminanDititipkan.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(constant != null) {
-                    final double beratEmas = Double.parseDouble(binding.textBeratEmas.getText().toString());
-                    final double persen = (checkedId == R.id.rdbYes) ? 0.75 : 0.5;
-                    limitYangDidapat = Double.parseDouble(constant.getHarga()) * beratEmas * persen;
-                    binding.textViewLimitYangDidapat.setText(formatCurrency(limitYangDidapat));
-                }
-            }
-        });
-
         // If image jaminan clicked
         binding.imageJaminan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,8 +238,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
 
     private double getPendapatan(ConstantModel constant, double beratEmas) {
-        final double persen = binding.rdbYes.isChecked() ? 0.75 : 0.5;
-        return Double.parseDouble(constant.getHarga()) * beratEmas * persen;
+        return Double.parseDouble(constant.getHarga()) * beratEmas * 0.75;
     }
 
     @SuppressLint("DefaultLocale")
@@ -317,6 +310,16 @@ public class ProfilPembeliActivity extends AppCompatActivity {
 
         if(binding.getAuth().getEmail().isEmpty()) {
             Toast.makeText(getApplicationContext(), getPrefixInputEmpty("email"), Toast.LENGTH_SHORT).show();
+            count++;
+        }
+
+        if(binding.getKontak().getNama().isEmpty()) {
+            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("nama kontak darurat"), Toast.LENGTH_SHORT).show();
+            count++;
+        }
+
+        if(binding.getKontak().getTelepon().isEmpty()) {
+            Toast.makeText(getApplicationContext(), getPrefixInputEmpty("telepon kontak darurat"), Toast.LENGTH_SHORT).show();
             count++;
         }
 

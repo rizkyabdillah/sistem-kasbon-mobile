@@ -18,6 +18,7 @@ import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ActivityPendaftaranBinding;
 import com.android.kasbon.sistem.model.AuthModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.utilitas.AlertInfo;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
@@ -67,7 +68,7 @@ public class PendaftaranActivity extends AppCompatActivity {
                             if(task.isSuccessful()) {
                                 String idUser = task.getResult().getUser().getUid();
                                 users.setPassword(auths.getPassword());
-                                insertViewModel.insertBatchUserJaminan(users, new JaminanModel(), idUser).observe(OWNER, new Observer<Task<Void>>() {
+                                insertViewModel.insertBatchUserJaminan(users, new JaminanModel(), new KontakDaruratModel(), idUser).observe(OWNER, new Observer<Task<Void>>() {
                                     @Override
                                     public void onChanged(Task<Void> voidTask) {
                                         if(voidTask.isSuccessful()) {

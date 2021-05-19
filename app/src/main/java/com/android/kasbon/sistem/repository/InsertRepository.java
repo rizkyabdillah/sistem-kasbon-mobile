@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.android.kasbon.sistem.model.DetailTransaksiModel;
 import com.android.kasbon.sistem.model.ItemKeranjangModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.TransaksiModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.utilitas.UtilsSingleton;
@@ -34,13 +35,16 @@ public class InsertRepository {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final WriteBatch batch = db.batch();
 
-    public MutableLiveData<Task<Void>> insertBatchUserJaminan(UserModel userModel, JaminanModel jaminan, String idUser) {
+    public MutableLiveData<Task<Void>> insertBatchUserJaminan(UserModel userModel, JaminanModel jaminanModel, KontakDaruratModel kontakModel, String idUser) {
         MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
         DocumentReference userReference = db.collection("users").document(idUser);
         batch.set(userReference, userModel);
 
         DocumentReference jaminanReference = db.collection("jaminan").document(idUser);
-        batch.set(jaminanReference, jaminan);
+        batch.set(jaminanReference, jaminanModel);
+
+        DocumentReference daruratReference = db.collection("kontak").document(idUser);
+        batch.set(daruratReference, kontakModel);
 
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

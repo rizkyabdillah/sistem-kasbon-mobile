@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.AuthModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,7 +43,7 @@ public class UpdateRepository {
         }); return liveData;
     }
 
-    public MutableLiveData<Task<Void>> updateBatchUserJaminan(UserModel user,JaminanModel jaminan, String idUser) {
+    public MutableLiveData<Task<Void>> updateBatchUserJaminan(UserModel user, JaminanModel jaminan, KontakDaruratModel kontakDaruratModel, String idUser) {
         MutableLiveData<Task<Void>> liveData = new MutableLiveData<>();
         DocumentReference userReference = db.collection("users").document(idUser);
         batch.update(userReference,
@@ -56,6 +57,13 @@ public class UpdateRepository {
                 "berat_emas", jaminan.getBerat_emas(),
                 "jenis_jaminan", jaminan.getJenis_jaminan(),
                 "limit_kredit", jaminan.getLimit_kredit());
+
+        DocumentReference kontakReference = db.collection("kontak").document(idUser);
+        batch.update(kontakReference,
+                "nama", kontakDaruratModel.getNama(),
+                "status", kontakDaruratModel.getStatus(),
+                "telepon", kontakDaruratModel.getTelepon());
+
 
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

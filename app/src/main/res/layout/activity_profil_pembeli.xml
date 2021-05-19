@@ -17,6 +17,10 @@
             name="auth"
             type="com.android.kasbon.sistem.model.AuthModel" />
 
+        <variable
+            name="kontak"
+            type="com.android.kasbon.sistem.model.KontakDaruratModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -465,6 +469,7 @@
                         app:srcCompat="@drawable/ic_plus" />
                 </LinearLayout>
 
+
 <!--                <EditText-->
 <!--                    android:id="@+id/constraintJaminanEmas"-->
 <!--                    android:layout_width="0dp"-->
@@ -538,14 +543,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal"
-                    android:clickable="true"
                     android:checkedButton="@id/rdbYes"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView27"
-                    android:focusable="true">
+                    app:layout_constraintTop_toBottomOf="@+id/textView27">
 
                     <RadioButton
                         android:id="@+id/rdbYes"
@@ -556,14 +559,184 @@
                         android:text="Ya"
                         android:textColor="@color/app_text_color_primary" />
 
+                </RadioGroup>
+
+
+                <TextView
+                    android:id="@+id/textView200"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Kontak Darurat"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="30sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rdbGroupJaminanDititipkan" />
+
+
+                <TextView
+                    android:id="@+id/textView101"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Nama"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView200" />
+
+                <EditText
+                    android:id="@+id/editTextTextProfileNamaDarurat"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@color/app_background"
+                    android:fontFamily="@font/roboto_light"
+                    android:hint="Masukkan nama"
+                    android:inputType="textPersonName"
+                    android:text="@={kontak.nama}"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textColorHint="@color/app_text_color_secondary"
+                    android:textDirection="inherit"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView101" />
+
+                <View
+                    android:id="@+id/view4Darurat"
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@color/app_text_color_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextTextProfileNamaDarurat" />
+
+                <TextView
+                    android:id="@+id/textView8Darurat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="28dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Telepon"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view4Darurat" />
+
+                <EditText
+                    android:id="@+id/editTextTextProfileTeleponDarurat"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@color/app_background"
+                    android:fontFamily="@font/roboto_light"
+                    android:hint="Masukkan no telp"
+                    android:inputType="number"
+                    android:text="@={kontak.telepon}"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textColorHint="@color/app_text_color_secondary"
+                    android:textDirection="inherit"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView8Darurat" />
+
+                <View
+                    android:id="@+id/view5Darurat"
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@color/app_text_color_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextTextProfileTeleponDarurat" />
+
+                <TextView
+                    android:id="@+id/textView9Darurat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="28dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Status"
+                    android:textColor="@color/app_text_color_primary"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view5Darurat" />
+
+                <RadioGroup
+                    android:id="@+id/rdbGroupStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:checkedButton="@{kontak.statusId}"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9Darurat">
+
                     <RadioButton
-                        android:id="@+id/rdbNo"
+                        android:id="@+id/rdbAyah"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:buttonTint="@color/app_red"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Tidak"
+                        android:text="Ayah"
+                        android:textColor="@color/app_text_color_primary" />
+
+                    <RadioButton
+                        android:id="@+id/rdbIbu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/app_red"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Ibu"
+                        android:textColor="@color/app_text_color_primary" />
+
+                    <RadioButton
+                        android:id="@+id/rdbAnak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/app_red"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Anak"
+                        android:textColor="@color/app_text_color_primary" />
+
+                    <RadioButton
+                        android:id="@+id/rdbTeman"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/app_red"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Teman"
                         android:textColor="@color/app_text_color_primary" />
 
                 </RadioGroup>

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.ConstantModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.android.kasbon.sistem.repository.ReadRepository;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,6 +35,10 @@ public class ReadViewModel extends AndroidViewModel {
 
     public MutableLiveData<QuerySnapshot> readDataTransaksiUser(String idUser) {
         return repository.readDataTransaksiUser(idUser);
+    }
+
+    public MutableLiveData<KontakDaruratModel> readDataKontakDarurat(String idUser) {
+        return repository.readDataKontakDarurat(idUser);
     }
 
     public MutableLiveData<DocumentSnapshot> readDataTransaksiReload(String idTransaksi) {

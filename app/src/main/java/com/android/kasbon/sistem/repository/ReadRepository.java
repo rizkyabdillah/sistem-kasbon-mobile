@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.kasbon.sistem.model.ConstantModel;
 import com.android.kasbon.sistem.model.JaminanModel;
+import com.android.kasbon.sistem.model.KontakDaruratModel;
 import com.android.kasbon.sistem.model.UserModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -78,6 +79,17 @@ public class ReadRepository {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 liveData.postValue(value.toObject(ConstantModel.class));
+            }
+        }); return liveData;
+    }
+
+    public MutableLiveData<KontakDaruratModel> readDataKontakDarurat(String idUser) {
+        MutableLiveData<KontakDaruratModel> liveData = new MutableLiveData<>();
+        db.collection("kontak").document(idUser).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                liveData.postValue(value.toObject(KontakDaruratModel.class));
+                Log.d("=================", "onEvent: " + value.getData().size());
             }
         }); return liveData;
     }
