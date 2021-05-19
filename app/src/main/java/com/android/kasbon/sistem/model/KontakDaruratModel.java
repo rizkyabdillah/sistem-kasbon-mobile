@@ -68,8 +68,13 @@ public class KontakDaruratModel extends BaseObservable {
         return id;
     }
 
+    public void setStatus(int status) {
+        this.status = status;
+        notifyPropertyChanged(BR.status);
+    }
+
     @SuppressLint("NonConstantResourceId")
-    public void setStatus(int id) {
+    public void setStatusId(int id) {
         int status = 0;
         switch (id) {
             case R.id.rdbAyah :

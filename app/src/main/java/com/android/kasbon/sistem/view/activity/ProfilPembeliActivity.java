@@ -102,6 +102,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                                     @Override
                                     public void onChanged(KontakDaruratModel kontakDaruratModel) {
                                         alertProgress.dismissDialog();
+                                        limitYangDidapat = jaminanModel.getLimit_kredit();
                                         binding.setKontak(kontakDaruratModel);
                                     }
                                 });
@@ -137,7 +138,7 @@ public class ProfilPembeliActivity extends AppCompatActivity {
                     }
 
                     KontakDaruratModel kontakDaruratModel = binding.getKontak();
-                    kontakDaruratModel.setStatus(binding.rdbGroupStatus.getCheckedRadioButtonId());
+                    kontakDaruratModel.setStatusId(binding.rdbGroupStatus.getCheckedRadioButtonId());
 
                     updateViewModel.updateBatchUserJaminan(userModel, jaminanModel, kontakDaruratModel, firebaseUser.getUid()).observe(OWNER, new Observer<Task<Void>>() {
                         @Override
