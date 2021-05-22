@@ -19,7 +19,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private final String CHANNEL_ID = "ChannelNotificationKasbonApp";
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
         createNotificationChannel(context);
