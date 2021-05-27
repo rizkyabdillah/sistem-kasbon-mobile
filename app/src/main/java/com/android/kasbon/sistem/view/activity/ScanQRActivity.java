@@ -10,26 +10,23 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.kasbon.sistem.R;
 import com.android.kasbon.sistem.databinding.ActivityScanQRBinding;
-import com.android.kasbon.sistem.repository.AlarmReceiver;
+import com.android.kasbon.sistem.service.AlarmReceiver;
 import com.android.kasbon.sistem.utilitas.AlertProgress;
 import com.android.kasbon.sistem.viewmodel.UpdateViewModel;
-import com.budiyev.android.codescanner.BarcodeUtils;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import java.util.Calendar;
@@ -63,7 +60,6 @@ public class ScanQRActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         final String[] resultText = result.getText().split("/");
-                        final int ID_TRANSAKSI = Integer.parseInt(resultText[0].substring(2));
                         if(!resultText[0].substring(0,2).equals("TR")) {
                             Toast.makeText(THIS, "Barcode salah", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(THIS, ResultGagalActivity.class));
@@ -83,18 +79,27 @@ public class ScanQRActivity extends AppCompatActivity {
                                         progress.dismissDialog();
                                         if (task.isSuccessful()) {
                                             Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ID_TRANSAKSI, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 123, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                             Calendar cal = Calendar.getInstance();
-                                            cal.add(Calendar.HOUR_OF_DAY, 1);
+                                            cal.add(Calendar.DAY_OF_YEAR, 30);
                                             AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
-                                            if (android.os.Build.VERSION.SDK_INT >= 23) {
-                                                manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-                                            } else if (android.os.Build.VERSION.SDK_INT >= 19) {
-                                                manager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-                                            } else {
-                                                manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-                                            }
-                                            Log.d("==============", "onChanged: NOTIF CHANGED AT " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE)) ;
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (android.os.Build.VERSION.SDK_INT >= 23) {
+                                                        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                                                        Log.d("==============", "SET ALARM WHILE IDDLE");
+                                                    } else if (android.os.Build.VERSION.SDK_INT >= 19) {
+                                                        manager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                                                        Log.d("==============", "SET ALARM EXACT");
+                                                    } else {
+                                                        manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                                                        Log.d("==============", "SET ALARM");
+                                                    }
+                                                }
+                                            }, 2000);
+
+                                            Log.d("==============", "onChanged: NOTIF CHANGED AT " + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND)) ;
                                             startActivity(new Intent(THIS, ResultSuksesActivity.class));
                                         } else {
                                             Toast.makeText(THIS, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
