@@ -79,9 +79,11 @@ public class ScanQRActivity extends AppCompatActivity {
                                         progress.dismissDialog();
                                         if (task.isSuccessful()) {
                                             Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                                            alarmIntent.putExtra("ID_TRANSAKSI", resultText[0]);
                                             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 123, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                             Calendar cal = Calendar.getInstance();
                                             cal.add(Calendar.MINUTE, 1);
+                                            cal.set(Calendar.SECOND, 0);
                                             AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -99,7 +101,7 @@ public class ScanQRActivity extends AppCompatActivity {
                                                 }
                                             }, 2000);
 
-                                            Log.d("==============", "onChanged: NOTIF CHANGED AT " + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND)) ;
+                                            Log.d("==============", "onChanged: NOTIF CHANGED AT " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE)) ;
                                             startActivity(new Intent(THIS, ResultSuksesActivity.class));
                                         } else {
                                             Toast.makeText(THIS, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
