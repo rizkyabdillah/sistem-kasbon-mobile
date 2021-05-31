@@ -81,7 +81,7 @@ public class ScanQRActivity extends AppCompatActivity {
                                             Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
                                             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 123, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                             Calendar cal = Calendar.getInstance();
-                                            cal.add(Calendar.DAY_OF_YEAR, 30);
+                                            cal.add(Calendar.MINUTE, 1);
                                             AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
