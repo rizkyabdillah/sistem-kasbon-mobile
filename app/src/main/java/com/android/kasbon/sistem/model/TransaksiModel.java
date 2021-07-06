@@ -8,7 +8,7 @@ import java.util.Date;
 public class TransaksiModel {
 
     @SuppressLint("SimpleDateFormat")
-    private String id_user = "",  tanggal = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
+    private String id_user = "",  tanggal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     private int jumlah = 0, total = 0;
     private boolean status_jual = false, status_bayar = false;
 

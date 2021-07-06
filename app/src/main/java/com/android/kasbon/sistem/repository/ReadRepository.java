@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -45,7 +46,8 @@ public class ReadRepository {
 
     public MutableLiveData<QuerySnapshot> readDataTransaksiUser(String idUser) {
         MutableLiveData<QuerySnapshot> liveData = new MutableLiveData<>();
-        db.collection("transaksi").whereEqualTo("id_user", idUser).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("transaksi").whereEqualTo("id_user", idUser).orderBy("tanggal", Query.Direction.DESCENDING)
+            .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 liveData.postValue(value);
@@ -65,7 +67,7 @@ public class ReadRepository {
 
     public MutableLiveData<QuerySnapshot> readDataTransaksiAll() {
         MutableLiveData<QuerySnapshot> liveData = new MutableLiveData<>();
-        db.collection("transaksi").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("transaksi").orderBy("tanggal", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 liveData.postValue(value);
