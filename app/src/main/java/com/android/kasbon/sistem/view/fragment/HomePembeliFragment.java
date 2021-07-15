@@ -113,20 +113,21 @@ public class HomePembeliFragment extends Fragment {
             @Override
             public void onChanged(QuerySnapshot value) {
                 List<OperationTransaksiModel> list = new ArrayList<>();
-                for (QueryDocumentSnapshot doc : value) {
-                    if(!doc.getString("id_user").equals("TEMP")) {
-                        try {
-                            OperationTransaksiModel model = new OperationTransaksiModel();
-                            model.setJumlah(doc.getDouble("total"));
-                            model.setStatusBayar(doc.getBoolean("status_bayar"));
-                            model.setStatusJual(doc.getBoolean("status_jual"));
-                            model.setTanggal(doc.getString("tanggal"));
-                            list.add(model);
-                        } catch (Exception e) {
-                            Log.d("ERROR", e.getMessage());
+                Log.d("=========", "onChanged: " + value.size());
+                    for (QueryDocumentSnapshot doc : value) {
+                        if(!doc.getString("id_user").equals("TEMP")) {
+                            try {
+                                OperationTransaksiModel model = new OperationTransaksiModel();
+                                model.setJumlah(doc.getDouble("total"));
+                                model.setStatusBayar(doc.getBoolean("status_bayar"));
+                                model.setStatusJual(doc.getBoolean("status_jual"));
+                                model.setTanggal(doc.getString("tanggal"));
+                                list.add(model);
+                            } catch (Exception e) {
+                                Log.d("ERROR", e.getMessage());
+                            }
                         }
                     }
-                }
 
                 adapter = new TransaksiPembeliAdapter(list, true);
                 binding.recyclerViewTransaksiPembeli.setAdapter(adapter);

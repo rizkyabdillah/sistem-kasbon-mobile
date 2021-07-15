@@ -46,7 +46,7 @@ public class ReadRepository {
 
     public MutableLiveData<QuerySnapshot> readDataTransaksiUser(String idUser) {
         MutableLiveData<QuerySnapshot> liveData = new MutableLiveData<>();
-        db.collection("transaksi").whereEqualTo("id_user", idUser).orderBy("tanggal", Query.Direction.DESCENDING)
+        db.collection("transaksi").whereEqualTo("id_user", idUser)/*.orderBy("tanggal", Query.Direction.DESCENDING)*/
             .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
